@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Wandile's 30th | The Electric Gala</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "primary": "#fecb00", // Bright Yellow
+              "on-primary": "#000000",
+              "secondary": "#000000", // Black
+              "on-secondary": "#fecb00",
+              "surface": "#ffffff",
+              "on-surface": "#000000",
+              "surface-container": "#f5f5f5",
+              "surface-container-low": "#fafafa",
+              "surface-container-high": "#ebebeb",
+              "surface-container-highest": "#e0e0e0",
+              "outline": "#777777",
+              "primary-container": "#fff1b8",
+              "on-primary-container": "#241d00"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Be Vietnam Pro"],
+              "label": ["Be Vietnam Pro"]
+            },
+            borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .kinetic-bg {
+            background: linear-gradient(135deg, #000000 0%, #333333 100%);
+        }
+        .confetti-overlay {
+            background-image: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h2v2H0V0zm10 10h2v2h-2v-2zm10 10h2v2h-2v-2zm10 10h2v2h-2v-2zM0 20h2v2H0v-2zm10 30h2v2h-2v-2zM20 0h2v2h-2V0zm10 10h2v2h-2v-2z' fill='%23fecb00' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+    </style>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface selection:bg-primary selection:text-black">
+<!-- TopAppBar Component -->
+<nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 max-w-5xl mx-auto rounded-full mt-4 mx-4 bg-[#f9f6f5] dark:bg-neutral-900 shadow-[0_20px_40px_rgba(112,89,0,0.06)] backdrop-blur-md">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#705900] dark:text-[#fecb00]" data-icon="celebration">celebration</span>
+<span class="text-2xl font-black text-[#705900] dark:text-[#fecb00] tracking-tighter font-headline uppercase">WANDILE'S 30TH</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-neutral-500 dark:text-neutral-400 font-bold hover:text-[#705900] hover:scale-105 transition-transform duration-200" href="#venue">Venue</a>
+<a class="text-neutral-500 dark:text-neutral-400 font-bold hover:text-[#705900] hover:scale-105 transition-transform duration-200" href="#dress">Dress Code</a>
+<button id="audioBtn" title="Play music" class="flex items-center gap-2 bg-primary/10 hover:bg-primary text-[#705900] hover:text-black px-4 py-2 rounded-full font-black text-xs uppercase tracking-widest hover:scale-105 transition-all active:scale-95 border border-primary/30">
+<span id="audioIcon" class="material-symbols-outlined text-lg">volume_off</span>
+<span id="audioLabel">Music</span>
+</button>
+<a class="bg-[#fecb00] text-black px-6 py-2 rounded-full font-black text-xs uppercase tracking-widest hover:scale-105 transition-transform active:scale-95" href="#rsvp">RSVP</a>
+</div>
+<div class="md:hidden flex items-center gap-2">
+<button id="audioBtnMobile" title="Play music" class="text-[#705900] dark:text-[#fecb00] material-symbols-outlined" id="audioBtnMobile">volume_off</button>
+<button class="text-[#705900] dark:text-[#fecb00] material-symbols-outlined" data-icon="menu">menu</button>
+</div>
+</nav>
+<main class="pt-32 pb-12 overflow-x-hidden">
+<!-- Hero Section -->
+<section class="relative px-6 py-12 lg:py-24 max-w-7xl mx-auto overflow-visible">
+<div class="grid lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-7 z-10">
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-black rounded-full mb-6 font-black text-xs uppercase tracking-widest">
+<span class="material-symbols-outlined text-lg" data-icon="auto_awesome">auto_awesome</span>
+                    IT'S A CELEBRATION
+                </div>
+<h1 class="font-headline text-6xl md:text-8xl font-black tracking-tighter leading-tight text-black mb-8">
+                    Wandile <br/>
+<span class="text-primary italic">is Turning</span><br/>
+                    Big Thirty!
+                </h1>
+<p class="text-xl md:text-2xl text-zinc-700 max-w-xl mb-12 font-medium">
+                    Join us for an unforgettable night of music, laughter, and premium vibes as we toast to a new decade of greatness.
+                </p>
+<div class="flex flex-wrap gap-4">
+<a class="bg-black text-primary text-xl px-10 py-5 rounded-full font-black hover:bg-zinc-800 transition-all shadow-xl hover:shadow-primary/20 active:scale-95 flex items-center gap-3" href="#rsvp">
+                        Reserve Your Spot
+                        <span class="material-symbols-outlined" data-icon="confirmation_number">confirmation_number</span>
+</a>
+</div>
+</div>
+<!-- Image Cluster -->
+<div class="lg:col-span-5 relative">
+<div class="relative w-full aspect-square bg-primary/10 rounded-xl rotate-3 flex items-center justify-center p-4 border border-primary/20">
+<div class="absolute -top-12 -right-8 w-48 h-48 bg-primary rounded-full blur-3xl opacity-30"></div>
+<img alt="Birthday Cake" class="w-full h-full object-cover rounded-lg -rotate-6 shadow-2xl grayscale hover:grayscale-0 transition-all duration-700" data-alt="A luxurious multi-tiered colorful birthday cake" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJuXrzZgGzg3PwbQp5TW4kJBvVWbXteYnj3u5x3gaCWDYYU4AtgqvfzX1FrrgsysLYBa7FGvp7bL87I5P3W4prZgsR4tmHeyjb3Vyqa6YFOeq1_8kh1QNr8AClNMjMmrAo9M4UT7JAyq8qma0JZiMGe_I5wpTPEiaMogot2stl7x4VQEnf-ZxuZeisoC8bJUR3FIhEu-DajxxWYOoDR32-XsRgGjFRr210yUOWnH-W5QUxNpuI4DXhQ61CjFCn1Eh6OGintkbPt0xe"/>
+</div>
+<div class="absolute -bottom-6 -left-6 bg-black p-6 rounded-lg shadow-xl -rotate-2 max-w-[200px] border border-white/10">
+<span class="material-symbols-outlined text-primary text-4xl mb-2" data-icon="mood" style="font-variation-settings: 'FILL' 1;">mood</span>
+<p class="font-headline font-bold text-lg leading-tight text-white">Good Vibes Only</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Details Section -->
+<section class="px-6 py-20 bg-surface-container-low rounded-t-xl lg:rounded-t-[5rem]" id="details">
+<div class="max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Time & Date -->
+<div class="md:col-span-4 bg-white p-10 rounded-xl shadow-sm border border-zinc-200 flex flex-col justify-between hover:shadow-md transition-shadow">
+<div class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-12">
+<span class="material-symbols-outlined text-black text-3xl" data-icon="calendar_today">calendar_today</span>
+</div>
+<div>
+<h3 class="font-headline text-3xl font-bold mb-2">Save the Date</h3>
+<p class="text-4xl font-black text-black font-headline tracking-tighter mb-4">OCT 24</p>
+<p class="text-zinc-600 text-lg">Saturday evening starting from 7:00 PM onwards</p>
+</div>
+</div>
+<!-- Venue -->
+<div class="md:col-span-8 bg-black p-10 rounded-xl relative overflow-hidden group text-white" id="venue">
+<div class="relative z-10 h-full flex flex-col justify-between">
+<div class="flex justify-between items-start">
+<div class="w-16 h-16 bg-primary/20 backdrop-blur rounded-xl flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-3xl" data-icon="location_on">location_on</span>
+</div>
+<span class="bg-primary/20 backdrop-blur text-sm font-bold px-4 py-2 rounded-full border border-primary/30 uppercase tracking-widest">Exclusive Location</span>
+</div>
+<div class="mt-20">
+<h3 class="font-headline text-4xl font-bold mb-4 text-primary">The Penthouse Lounge</h3>
+<p class="text-xl text-zinc-400 max-w-md">123 Skyline Terrace, Sandton Heights. Complementary Valet Parking available for all guests.</p>
+<button class="mt-8 flex items-center gap-2 text-primary font-black hover:gap-4 transition-all uppercase text-sm tracking-widest">
+                                Get Directions 
+                                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Abstract Background -->
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-20 confetti-overlay pointer-events-none"></div>
+<img alt="Luxury Lounge" class="absolute top-0 right-0 w-full h-full object-cover opacity-20 mix-blend-screen group-hover:scale-110 transition-transform duration-700" data-alt="Modern rooftop lounge with warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhIcRM1az1-Zqgcr36uemnqxxjiRhSUAphiKYD0zHnZ5truGsQCUnrz-cAgDpvGOwGkCZexf9tWYBx8p-uOeTAzpWJkavRNbFsf4rsbhk2I1YfB2n_uGu4xZlxkq8edqwb5W3UGlS4TUKFxpgi2pvq_zpAkMNDjZ3sr4phzxTjn3Rgcxq2ss61x_noYO4BTVB7wfXz8KjTZGl3MUKDSFpryqmT-BQAmEbmSOdYOXJgBWiWIEmKV6aD6nmiw0jqxUx70-RRWj-pEVig"/>
+</div>
+<!-- Dress Code -->
+<div class="md:col-span-7 bg-primary p-10 rounded-xl text-black flex flex-col md:flex-row gap-8 items-center justify-between" id="dress">
+<div class="flex-1">
+<h3 class="font-headline text-4xl font-black mb-4 uppercase tracking-tighter">Dress Code</h3>
+<p class="text-2xl font-bold mb-6 italic">"Dress to Impress"</p>
+<p class="text-black/80 font-medium text-lg leading-relaxed">Think sophisticated glam with a touch of electric gold. Sharp black and high-contrast attire preferred.</p>
+</div>
+<div class="w-48 h-48 bg-black/10 backdrop-blur-md rounded-full flex items-center justify-center relative shadow-inner border border-black/10">
+<span class="material-symbols-outlined text-6xl text-black" data-icon="apparel" style="font-variation-settings: 'FILL' 1;">apparel</span>
+<div class="absolute -top-2 -right-2 bg-black text-primary text-xs font-black p-2 rounded-full rotate-12 tracking-widest uppercase">FABULOUS!</div>
+</div>
+</div>
+<!-- RSVP Teaser -->
+<div class="md:col-span-5 bg-white p-10 rounded-xl flex flex-col items-center justify-center text-center gap-6 border border-zinc-200">
+<div class="flex -space-x-4 mb-2">
+<img alt="Guest" class="w-14 h-14 rounded-full border-4 border-white object-cover grayscale" data-alt="Portrait of a smiling young woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwkf4JEo1HgYIJ7JLqcXS-nBX8ZHzv5VmX8HYI_8de4coTWfQOlAMLlg8ypi9HiHk9RxiTk67qqTADRTraDkrbgYXaf9Q-CAh_ud-7XAikW3elG3RYXL_tacTd6xzScVjzj2Hmn9FXf_KqV-zq0mowyhNAd6d0HFFFOYPRMVD1TArAwPBXjrT5jN5zGaQT_0HdTUPIOUxujEaGrKuistDDVMtit9Dti6HqGhB8YgQKwitEq_QaR-NfcFO1fh7qyJXdbnMWCMLIeefo"/>
+<img alt="Guest" class="w-14 h-14 rounded-full border-4 border-white object-cover grayscale" data-alt="Portrait of a smiling young man" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1qYmkNhZ5Z09OkotbgMnP-XuaVY1fLRT8oHHw6QKrAZFCJ8nLeWEe-xSKEvBmSbOSp9voDbI6-p4FyrPTJH2GAUrBIeG43JI6SxA7ADaHIkPWxfiIO_Ivx8zg_sbEatn_niabg-bCazEw7abUGIFoH5efQLO26F319iHteJiepQro_er7dMYiLYrUT5qP8M_6nkwuT0YetytHs87jGJ5AOtG9o8jgLeXZ232yZHnRriF-Zqij_KDH4EcGz0fC7jpZeI3jPELOtnQD"/>
+<img alt="Guest" class="w-14 h-14 rounded-full border-4 border-white object-cover grayscale" data-alt="Portrait of a happy young woman" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD9aTIAdKw2RIsLpUd0vT_GG4v4DMASoaQglajb2tXNiQSuBWEhVoFFRHqjH08auVF4i2deY3i8a2jVwdFdIeHGqDbV1eJeYZR9jCUgH1OUb1HAbD6zH5II3UYe2ycgFM9dPoOVOONyqcfNOAnfgHtHwcOlgVlm8NaMGGP9zDE9GIVhCp1ex08pbO2j5gHYlBCzpmpHf0TiAAYqr87ZJxAjSWVTD9cm9MzUsFZecCdM6MJd01r4mlWQy4jM4P5ebJUhKfPYVll9p6VU"/>
+<div class="w-14 h-14 rounded-full border-4 border-white bg-black flex items-center justify-center font-black text-primary text-sm">+42</div>
+</div>
+<p class="font-black text-xl uppercase tracking-tighter">45 Friends RSVP'D!</p>
+<p class="text-zinc-500 font-medium">Don't miss the party of the year. Let us know you're coming.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- RSVP Form Section -->
+<section class="px-6 py-24 max-w-4xl mx-auto" id="rsvp">
+<div class="bg-black text-white p-8 md:p-16 rounded-xl shadow-2xl relative overflow-hidden">
+<div class="absolute -top-10 -right-10 w-32 h-32 bg-primary rounded-full blur-3xl opacity-20"></div>
+<div class="text-center mb-16 relative z-10">
+<h2 class="font-headline text-5xl font-black tracking-tight mb-4 text-primary uppercase">RSVP Now</h2>
+<p class="text-zinc-400 text-lg">Please confirm your attendance by October 15th</p>
+</div>
+<form class="space-y-8 relative z-10">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="font-black text-xs uppercase tracking-widest text-primary px-1">Your Full Name</label>
+<input class="w-full bg-zinc-900 border-none border-b-2 border-zinc-700 focus:ring-0 focus:border-primary transition-all rounded-sm p-4 text-lg text-white" placeholder="Wandile Cele" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-black text-xs uppercase tracking-widest text-primary px-1">Plus One?</label>
+<select class="w-full bg-zinc-900 border-none border-b-2 border-zinc-700 focus:ring-0 focus:border-primary transition-all rounded-sm p-4 text-lg text-white">
+<option>Coming Solo</option>
+<option>Bringing a Plus One</option>
+</select>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-black text-xs uppercase tracking-widest text-primary px-1">Dietary Requirements</label>
+<input class="w-full bg-zinc-900 border-none border-b-2 border-zinc-700 focus:ring-0 focus:border-primary transition-all rounded-sm p-4 text-lg text-white" placeholder="Any allergies or preferences?" type="text"/>
+</div>
+<div class="pt-8">
+<button class="w-full bg-primary text-black py-6 rounded-full font-black text-2xl shadow-xl hover:shadow-primary/30 transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-4 uppercase tracking-tighter" type="submit">
+                        SEND MY RSVP
+                        <span class="material-symbols-outlined" data-icon="send">send</span>
+</button>
+</div>
+</form>
+</div>
+</section>
+</main>
+<!-- Footer Component -->
+<footer class="bg-[#fecb00] dark:bg-[#705900] rounded-t-[3rem] w-full">
+<div class="w-full flex flex-col md:flex-row items-center justify-between px-12 py-10 gap-6 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-black text-3xl" data-icon="celebration">celebration</span>
+<span class="font-headline font-black text-black text-lg uppercase tracking-tight">The Electric Gala</span>
+</div>
+<div class="flex flex-wrap justify-center gap-8 font-['Plus_Jakarta_Sans'] font-bold text-xs uppercase tracking-widest text-black">
+<a class="underline decoration-2 underline-offset-4 hover:scale-105 transition-all" href="#rsvp">RSVP</a>
+<a class="opacity-80 hover:opacity-100 hover:scale-105 transition-all" href="#venue">Venue</a>
+<a class="opacity-80 hover:opacity-100 hover:scale-105 transition-all" href="#dress">Dress Code</a>
+<a class="opacity-80 hover:opacity-100 hover:scale-105 transition-all" href="#">Gallery</a>
+</div>
+<p class="font-['Plus_Jakarta_Sans'] font-bold text-[10px] uppercase tracking-widest text-black opacity-60">
+            © 2024 THE ELECTRIC GALA • WANDILE CELE
+        </p>
+</div>
+</footer>
+<!-- Floating Action Button -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-black text-primary rounded-full shadow-2xl flex items-center justify-center z-40 hover:scale-110 active:scale-90 transition-transform group border border-primary/20">
+<span class="material-symbols-outlined text-3xl" data-icon="add_reaction" style="font-variation-settings: 'FILL' 1;">add_reaction</span>
+<span class="absolute right-20 bg-black text-primary text-xs font-black px-3 py-1 rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none uppercase tracking-widest border border-primary/20">Celebrate!</span>
+</button>
+
+<!-- Audio Player -->
+<audio id="galaMusic" src="Future-Codeine_Crazy.mp3" loop></audio>
+
+<script>
+  const audio = document.getElementById('galaMusic');
+  const audioBtn = document.getElementById('audioBtn');
+  const audioBtnMobile = document.getElementById('audioBtnMobile');
+  const audioIcon = document.getElementById('audioIcon');
+  const audioLabel = document.getElementById('audioLabel');
+
+  function toggleAudio() {
+    if (audio.paused) {
+      audio.play();
+      audioIcon.textContent = 'volume_up';
+      audioLabel.textContent = 'Playing';
+      audioBtnMobile.textContent = 'volume_up';
+      audioBtn.classList.add('bg-primary', 'text-black');
+      audioBtn.classList.remove('bg-primary/10', 'text-[#705900]');
+    } else {
+      audio.pause();
+      audioIcon.textContent = 'volume_off';
+      audioLabel.textContent = 'Music';
+      audioBtnMobile.textContent = 'volume_off';
+      audioBtn.classList.remove('bg-primary', 'text-black');
+      audioBtn.classList.add('bg-primary/10', 'text-[#705900]');
+    }
+  }
+
+  audioBtn.addEventListener('click', toggleAudio);
+  audioBtnMobile.addEventListener('click', toggleAudio);
+</script>
+</body></html>
