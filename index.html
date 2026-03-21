@@ -175,6 +175,66 @@
 <p class="font-black text-xl uppercase tracking-tighter">45 Friends RSVP'D!</p>
 <p class="text-zinc-500 font-medium">Don't miss the party of the year. Let us know you're coming.</p>
 </div>
+
+<!-- Music Player Card -->
+<div class="md:col-span-12 bg-black p-10 rounded-xl relative overflow-hidden flex flex-col gap-6 border border-white/10">
+<div class="absolute inset-0 confetti-overlay opacity-10 pointer-events-none"></div>
+<!-- Top row: track info + waveform + controls -->
+<div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-6">
+<div class="flex items-center gap-6 flex-1">
+<div class="w-16 h-16 bg-primary/20 rounded-xl flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-3xl" style="font-variation-settings: 'FILL' 1;">music_note</span>
+</div>
+<div>
+<span class="text-xs font-black uppercase tracking-widest text-primary/70">Featured Track</span>
+<h3 class="font-headline text-2xl font-bold text-white mt-1">Codeine Crazy</h3>
+<p class="text-zinc-400 font-medium">Future</p>
+</div>
+</div>
+<!-- Waveform bars -->
+<div class="hidden md:flex items-end gap-1 h-10 flex-1 justify-center" id="waveform">
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:30%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:60%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:80%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:50%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:90%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:40%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:70%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:55%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:85%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:45%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:65%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:35%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:75%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:50%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:95%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:60%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:40%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:80%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:55%"></span>
+<span class="waveBar w-1 bg-primary/40 rounded-full" style="height:70%"></span>
+</div>
+<!-- Controls -->
+<div class="flex-shrink-0 flex items-center gap-3">
+<button id="audioRestartBtn" title="Restart" class="w-12 h-12 bg-white/10 hover:bg-white/20 rounded-full flex items-center justify-center transition-all active:scale-90 border border-white/10">
+<span class="material-symbols-outlined text-white text-2xl" style="font-variation-settings: 'FILL' 1;">replay</span>
+</button>
+<button id="audioBtnCard" class="w-20 h-20 bg-primary rounded-full flex items-center justify-center shadow-xl hover:scale-110 active:scale-95 transition-transform border-4 border-primary/30">
+<span id="audioIconCard" class="material-symbols-outlined text-black text-4xl" style="font-variation-settings: 'FILL' 1;">play_arrow</span>
+</button>
+</div>
+</div>
+<!-- Progress Bar — full width bottom row -->
+<div class="relative z-10 flex items-center gap-3 w-full">
+<span id="audioCurrentTime" class="text-xs font-black text-zinc-500 tabular-nums w-10 text-right flex-shrink-0">0:00</span>
+<div id="progressTrack" class="flex-1 h-1.5 bg-white/10 rounded-full cursor-pointer group">
+<div id="progressBar" class="h-full bg-primary rounded-full relative transition-none" style="width:0%">
+<div class="absolute right-0 top-1/2 -translate-y-1/2 w-3 h-3 bg-primary rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</div>
+</div>
+<span id="audioDuration" class="text-xs font-black text-zinc-500 tabular-nums w-10 flex-shrink-0">0:00</span>
+</div>
+</div>
 </div>
 </div>
 </section>
@@ -241,32 +301,97 @@
 <!-- Audio Player -->
 <audio id="galaMusic" src="Future-Codeine_Crazy.mp3" loop></audio>
 
+<style>
+  @keyframes wave {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1.4); }
+  }
+  .waveBar { transform-origin: bottom; transition: background-color 0.3s; }
+  .playing .waveBar { background-color: #fecb00 !important; animation: wave 0.8s ease-in-out infinite; }
+  .playing .waveBar:nth-child(odd)  { animation-delay: 0.1s; }
+  .playing .waveBar:nth-child(3n)   { animation-delay: 0.25s; }
+  .playing .waveBar:nth-child(5n)   { animation-delay: 0.4s; }
+</style>
+
 <script>
   const audio = document.getElementById('galaMusic');
   const audioBtn = document.getElementById('audioBtn');
   const audioBtnMobile = document.getElementById('audioBtnMobile');
+  const audioBtnCard = document.getElementById('audioBtnCard');
   const audioIcon = document.getElementById('audioIcon');
+  const audioIconCard = document.getElementById('audioIconCard');
   const audioLabel = document.getElementById('audioLabel');
+  const waveform = document.getElementById('waveform');
+
+  function setPlayingState(playing) {
+    if (playing) {
+      audioIcon.textContent = 'volume_up';
+      audioLabel.textContent = 'Playing';
+      audioBtnMobile.textContent = 'volume_up';
+      audioIconCard.textContent = 'pause';
+      audioBtn.classList.add('bg-primary', 'text-black');
+      audioBtn.classList.remove('bg-primary/10', 'text-[#705900]');
+      waveform.classList.add('playing');
+    } else {
+      audioIcon.textContent = 'volume_off';
+      audioLabel.textContent = 'Music';
+      audioBtnMobile.textContent = 'volume_off';
+      audioIconCard.textContent = 'play_arrow';
+      audioBtn.classList.remove('bg-primary', 'text-black');
+      audioBtn.classList.add('bg-primary/10', 'text-[#705900]');
+      waveform.classList.remove('playing');
+    }
+  }
 
   function toggleAudio() {
     if (audio.paused) {
       audio.play();
-      audioIcon.textContent = 'volume_up';
-      audioLabel.textContent = 'Playing';
-      audioBtnMobile.textContent = 'volume_up';
-      audioBtn.classList.add('bg-primary', 'text-black');
-      audioBtn.classList.remove('bg-primary/10', 'text-[#705900]');
+      setPlayingState(true);
     } else {
       audio.pause();
-      audioIcon.textContent = 'volume_off';
-      audioLabel.textContent = 'Music';
-      audioBtnMobile.textContent = 'volume_off';
-      audioBtn.classList.remove('bg-primary', 'text-black');
-      audioBtn.classList.add('bg-primary/10', 'text-[#705900]');
+      setPlayingState(false);
     }
   }
 
+  const audioRestartBtn = document.getElementById('audioRestartBtn');
+  const progressBar = document.getElementById('progressBar');
+  const progressTrack = document.getElementById('progressTrack');
+  const audioCurrentTime = document.getElementById('audioCurrentTime');
+  const audioDuration = document.getElementById('audioDuration');
+
+  function formatTime(s) {
+    const m = Math.floor(s / 60);
+    const sec = Math.floor(s % 60);
+    return m + ':' + String(sec).padStart(2, '0');
+  }
+
+  audio.addEventListener('timeupdate', () => {
+    if (!audio.duration) return;
+    const pct = (audio.currentTime / audio.duration) * 100;
+    progressBar.style.width = pct + '%';
+    audioCurrentTime.textContent = formatTime(audio.currentTime);
+  });
+
+  audio.addEventListener('loadedmetadata', () => {
+    audioDuration.textContent = formatTime(audio.duration);
+  });
+
+  progressTrack.addEventListener('click', (e) => {
+    const rect = progressTrack.getBoundingClientRect();
+    const ratio = (e.clientX - rect.left) / rect.width;
+    audio.currentTime = ratio * audio.duration;
+  });
+
+  audioRestartBtn.addEventListener('click', () => {
+    audio.currentTime = 0;
+    if (audio.paused) {
+      audio.play();
+      setPlayingState(true);
+    }
+  });
+
   audioBtn.addEventListener('click', toggleAudio);
   audioBtnMobile.addEventListener('click', toggleAudio);
+  audioBtnCard.addEventListener('click', toggleAudio);
 </script>
 </body></html>
