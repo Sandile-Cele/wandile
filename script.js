@@ -19,6 +19,9 @@ const secondVenueModalBackdrop = document.getElementById("secondVenueModalBackdr
 const rsvpCard = document.querySelector("[data-rsvp-card]");
 const rsvpModal = document.getElementById("rsvpModal");
 const rsvpModalClose = document.getElementById("rsvpModalClose");
+const reserveGiftCard = document.querySelector("[data-reserve-gift-card]");
+const reserveGiftModal = document.getElementById("reserveGiftModal");
+const reserveGiftModalClose = document.getElementById("reserveGiftModalClose");
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -85,7 +88,12 @@ function initParallax() {
 }
 
 function syncBodyScrollLock() {
-  const hasOpenModal = [firstVenueModal, secondVenueModal, rsvpModal].some(
+  const hasOpenModal = [
+    firstVenueModal,
+    secondVenueModal,
+    rsvpModal,
+    reserveGiftModal,
+  ].some(
     (modal) => modal && !modal.classList.contains("hidden")
   );
   document.body.classList.toggle("overflow-hidden", hasOpenModal);
@@ -95,6 +103,7 @@ function openFirstVenueModal() {
   if (!firstVenueModal) return;
   closeSecondVenueModal();
   closeRsvpModal();
+  closeReserveGiftModal();
   firstVenueModal.classList.remove("hidden");
   firstVenueModal.classList.add("flex");
   firstVenueModal.setAttribute("aria-hidden", "false");
@@ -113,6 +122,7 @@ function openSecondVenueModal() {
   if (!secondVenueModal) return;
   closeFirstVenueModal();
   closeRsvpModal();
+  closeReserveGiftModal();
   secondVenueModal.classList.remove("hidden");
   secondVenueModal.classList.add("flex");
   secondVenueModal.setAttribute("aria-hidden", "false");
@@ -131,6 +141,7 @@ function openRsvpModal() {
   if (!rsvpModal) return;
   closeFirstVenueModal();
   closeSecondVenueModal();
+  closeReserveGiftModal();
   rsvpModal.classList.remove("hidden");
   rsvpModal.classList.add("block");
   rsvpModal.setAttribute("aria-hidden", "false");
@@ -142,6 +153,25 @@ function closeRsvpModal() {
   rsvpModal.classList.remove("block");
   rsvpModal.classList.add("hidden");
   rsvpModal.setAttribute("aria-hidden", "true");
+  syncBodyScrollLock();
+}
+
+function openReserveGiftModal() {
+  if (!reserveGiftModal) return;
+  closeFirstVenueModal();
+  closeSecondVenueModal();
+  closeRsvpModal();
+  reserveGiftModal.classList.remove("hidden");
+  reserveGiftModal.classList.add("block");
+  reserveGiftModal.setAttribute("aria-hidden", "false");
+  syncBodyScrollLock();
+}
+
+function closeReserveGiftModal() {
+  if (!reserveGiftModal) return;
+  reserveGiftModal.classList.remove("block");
+  reserveGiftModal.classList.add("hidden");
+  reserveGiftModal.setAttribute("aria-hidden", "true");
   syncBodyScrollLock();
 }
 
@@ -270,6 +300,18 @@ if (rsvpCard && rsvpModal) {
   });
 }
 
+if (reserveGiftCard && reserveGiftModal) {
+  reserveGiftCard.addEventListener("click", () => {
+    openReserveGiftModal();
+  });
+
+  reserveGiftCard.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    openReserveGiftModal();
+  });
+}
+
 if (firstVenueModalClose) {
   firstVenueModalClose.addEventListener("click", closeFirstVenueModal);
 }
@@ -290,11 +332,16 @@ if (rsvpModalClose) {
   rsvpModalClose.addEventListener("click", closeRsvpModal);
 }
 
+if (reserveGiftModalClose) {
+  reserveGiftModalClose.addEventListener("click", closeReserveGiftModal);
+}
+
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
   closeFirstVenueModal();
   closeSecondVenueModal();
   closeRsvpModal();
+  closeReserveGiftModal();
 });
 
 if (firstVenueDirections) {
