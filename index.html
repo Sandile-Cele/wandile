@@ -101,21 +101,54 @@
       </div>
       <div class="md:hidden flex items-center gap-2">
         <button
-          id="audioBtnMobile"
-          title="Play music"
+          id="mobileMenuBtn"
+          type="button"
+          title="Open menu"
+          aria-label="Open menu"
+          aria-controls="mobileMenuPanel"
+          aria-expanded="false"
           class="text-[#fecb00] material-symbols-outlined"
-          id="audioBtnMobile"
         >
-          volume_off
-        </button>
-        <button
-          class="text-[#fecb00] material-symbols-outlined"
-          data-icon="menu"
-        >
-          menu
+          <span id="mobileMenuIcon">menu</span>
         </button>
       </div>
     </nav>
+
+    <div
+      id="mobileMenuPanel"
+      class="md:hidden fixed top-24 left-4 right-4 z-40 hidden flex-col gap-2 rounded-2xl border border-primary/20 bg-[#0f0f0f]/95 p-3 shadow-[0_20px_40px_rgba(254,203,0,0.08)] backdrop-blur-md"
+    >
+      <a
+        href="#venue"
+        data-mobile-menu-link
+        class="rounded-xl px-4 py-3 text-sm font-black uppercase tracking-widest text-zinc-300 hover:bg-primary hover:text-black transition-colors"
+        >Venue</a
+      >
+      <a
+        href="#dress"
+        data-mobile-menu-link
+        class="rounded-xl px-4 py-3 text-sm font-black uppercase tracking-widest text-zinc-300 hover:bg-primary hover:text-black transition-colors"
+        >Dress Code</a
+      >
+      <button
+        id="audioBtnMobile"
+        type="button"
+        title="Play music"
+        class="rounded-xl px-4 py-3 text-sm font-black uppercase tracking-widest text-zinc-300 hover:bg-primary hover:text-black transition-colors text-left"
+      >
+        <span class="material-symbols-outlined align-middle mr-2" id="audioIconMobile"
+          >volume_off</span
+        >
+        <span class="align-middle">Music</span>
+      </button>
+      <a
+        href="#rsvp"
+        data-mobile-menu-link
+        class="rounded-xl bg-primary px-4 py-3 text-sm font-black uppercase tracking-widest text-black hover:brightness-110 transition-all"
+        >RSVP</a
+      >
+    </div>
+
     <main class="pt-32 pb-12 overflow-x-hidden">
       <!-- Reserve Gift Section -->
       <section class="px-6 py-24 max-w-4xl mx-auto" data-reveal="zoom">
@@ -715,7 +748,10 @@
     </footer>
     <!-- Floating Action Button -->
     <button
+      id="floatingRsvpBtn"
       class="fixed bottom-8 right-8 w-16 h-16 bg-black text-primary rounded-full shadow-2xl flex items-center justify-center z-40 hover:scale-110 active:scale-90 transition-transform group border border-primary/20 fab-float"
+      title="Open RSVP form"
+      aria-label="Open RSVP form"
     >
       <span
         class="material-symbols-outlined text-3xl"

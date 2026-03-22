@@ -1,10 +1,15 @@
 const audio = document.getElementById("galaMusic");
 const audioBtn = document.getElementById("audioBtn");
 const audioBtnMobile = document.getElementById("audioBtnMobile");
+const audioIconMobile = document.getElementById("audioIconMobile");
 const audioBtnCard = document.getElementById("audioBtnCard");
 const audioIcon = document.getElementById("audioIcon");
 const audioIconCard = document.getElementById("audioIconCard");
 const audioLabel = document.getElementById("audioLabel");
+const mobileMenuBtn = document.getElementById("mobileMenuBtn");
+const mobileMenuIcon = document.getElementById("mobileMenuIcon");
+const mobileMenuPanel = document.getElementById("mobileMenuPanel");
+const mobileMenuLinks = document.querySelectorAll("[data-mobile-menu-link]");
 const waveform = document.getElementById("waveform");
 const firstVenueCard = document.querySelector("[data-first-venue-card]");
 const firstVenueDirections = document.querySelector("[data-first-venue-directions]");
@@ -19,6 +24,7 @@ const secondVenueModalBackdrop = document.getElementById("secondVenueModalBackdr
 const rsvpCard = document.querySelector("[data-rsvp-card]");
 const rsvpModal = document.getElementById("rsvpModal");
 const rsvpModalClose = document.getElementById("rsvpModalClose");
+const floatingRsvpBtn = document.getElementById("floatingRsvpBtn");
 const reserveGiftCard = document.querySelector("[data-reserve-gift-card]");
 const reserveGiftModal = document.getElementById("reserveGiftModal");
 const reserveGiftModalClose = document.getElementById("reserveGiftModalClose");
@@ -97,6 +103,31 @@ function syncBodyScrollLock() {
     (modal) => modal && !modal.classList.contains("hidden")
   );
   document.body.classList.toggle("overflow-hidden", hasOpenModal);
+}
+
+function closeMobileMenu() {
+  if (!mobileMenuPanel || !mobileMenuBtn) return;
+  mobileMenuPanel.classList.remove("flex");
+  mobileMenuPanel.classList.add("hidden");
+  mobileMenuBtn.setAttribute("aria-expanded", "false");
+  if (mobileMenuIcon) mobileMenuIcon.textContent = "menu";
+}
+
+function openMobileMenu() {
+  if (!mobileMenuPanel || !mobileMenuBtn) return;
+  mobileMenuPanel.classList.remove("hidden");
+  mobileMenuPanel.classList.add("flex");
+  mobileMenuBtn.setAttribute("aria-expanded", "true");
+  if (mobileMenuIcon) mobileMenuIcon.textContent = "close";
+}
+
+function toggleMobileMenu() {
+  if (!mobileMenuPanel) return;
+  if (mobileMenuPanel.classList.contains("hidden")) {
+    openMobileMenu();
+  } else {
+    closeMobileMenu();
+  }
 }
 
 function openFirstVenueModal() {
@@ -181,7 +212,8 @@ function setPlayingState(playing) {
   if (playing) {
     if (audioIcon) audioIcon.textContent = "volume_up";
     if (audioLabel) audioLabel.textContent = "Playing";
-    if (audioBtnMobile) audioBtnMobile.textContent = "volume_up";
+    if (audioIconMobile) audioIconMobile.textContent = "volume_up";
+    else if (audioBtnMobile) audioBtnMobile.textContent = "volume_up";
     if (audioIconCard) audioIconCard.textContent = "pause";
     if (audioBtn) {
       audioBtn.classList.add("bg-primary", "text-black");
@@ -191,7 +223,8 @@ function setPlayingState(playing) {
   } else {
     if (audioIcon) audioIcon.textContent = "volume_off";
     if (audioLabel) audioLabel.textContent = "Music";
-    if (audioBtnMobile) audioBtnMobile.textContent = "volume_off";
+    if (audioIconMobile) audioIconMobile.textContent = "volume_off";
+    else if (audioBtnMobile) audioBtnMobile.textContent = "volume_off";
     if (audioIconCard) audioIconCard.textContent = "play_arrow";
     if (audioBtn) {
       audioBtn.classList.remove("bg-primary", "text-black");
@@ -261,6 +294,20 @@ if (audioBtn) audioBtn.addEventListener("click", toggleAudio);
 if (audioBtnMobile) audioBtnMobile.addEventListener("click", toggleAudio);
 if (audioBtnCard) audioBtnCard.addEventListener("click", toggleAudio);
 
+if (mobileMenuBtn && mobileMenuPanel) {
+  mobileMenuBtn.addEventListener("click", toggleMobileMenu);
+}
+
+if (mobileMenuLinks.length) {
+  mobileMenuLinks.forEach((link) => {
+    link.addEventListener("click", closeMobileMenu);
+  });
+}
+
+window.addEventListener("resize", () => {
+  if (window.innerWidth >= 768) closeMobileMenu();
+});
+
 if (firstVenueCard && firstVenueModal) {
   firstVenueCard.addEventListener("click", (event) => {
     // Keep native behavior for nested controls like links.
@@ -296,6 +343,12 @@ if (rsvpCard && rsvpModal) {
   rsvpCard.addEventListener("keydown", (event) => {
     if (event.key !== "Enter" && event.key !== " ") return;
     event.preventDefault();
+    openRsvpModal();
+  });
+}
+
+if (floatingRsvpBtn && rsvpModal) {
+  floatingRsvpBtn.addEventListener("click", () => {
     openRsvpModal();
   });
 }
@@ -338,6 +391,7 @@ if (reserveGiftModalClose) {
 
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
+  closeMobileMenu();
   closeFirstVenueModal();
   closeSecondVenueModal();
   closeRsvpModal();
