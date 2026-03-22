@@ -6,6 +6,19 @@ const audioIcon = document.getElementById("audioIcon");
 const audioIconCard = document.getElementById("audioIconCard");
 const audioLabel = document.getElementById("audioLabel");
 const waveform = document.getElementById("waveform");
+const firstVenueCard = document.querySelector("[data-first-venue-card]");
+const firstVenueDirections = document.querySelector("[data-first-venue-directions]");
+const firstVenueModal = document.getElementById("firstVenueModal");
+const firstVenueModalClose = document.getElementById("firstVenueModalClose");
+const firstVenueModalBackdrop = document.getElementById("firstVenueModalBackdrop");
+const secondVenueCard = document.querySelector("[data-second-venue-card]");
+const secondVenueDirections = document.querySelector("[data-second-venue-directions]");
+const secondVenueModal = document.getElementById("secondVenueModal");
+const secondVenueModalClose = document.getElementById("secondVenueModalClose");
+const secondVenueModalBackdrop = document.getElementById("secondVenueModalBackdrop");
+const rsvpCard = document.querySelector("[data-rsvp-card]");
+const rsvpModal = document.getElementById("rsvpModal");
+const rsvpModalClose = document.getElementById("rsvpModalClose");
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
@@ -69,6 +82,67 @@ function initParallax() {
   };
 
   window.addEventListener("pointermove", onPointerMove, { passive: true });
+}
+
+function syncBodyScrollLock() {
+  const hasOpenModal = [firstVenueModal, secondVenueModal, rsvpModal].some(
+    (modal) => modal && !modal.classList.contains("hidden")
+  );
+  document.body.classList.toggle("overflow-hidden", hasOpenModal);
+}
+
+function openFirstVenueModal() {
+  if (!firstVenueModal) return;
+  closeSecondVenueModal();
+  closeRsvpModal();
+  firstVenueModal.classList.remove("hidden");
+  firstVenueModal.classList.add("flex");
+  firstVenueModal.setAttribute("aria-hidden", "false");
+  syncBodyScrollLock();
+}
+
+function closeFirstVenueModal() {
+  if (!firstVenueModal) return;
+  firstVenueModal.classList.remove("flex");
+  firstVenueModal.classList.add("hidden");
+  firstVenueModal.setAttribute("aria-hidden", "true");
+  syncBodyScrollLock();
+}
+
+function openSecondVenueModal() {
+  if (!secondVenueModal) return;
+  closeFirstVenueModal();
+  closeRsvpModal();
+  secondVenueModal.classList.remove("hidden");
+  secondVenueModal.classList.add("flex");
+  secondVenueModal.setAttribute("aria-hidden", "false");
+  syncBodyScrollLock();
+}
+
+function closeSecondVenueModal() {
+  if (!secondVenueModal) return;
+  secondVenueModal.classList.remove("flex");
+  secondVenueModal.classList.add("hidden");
+  secondVenueModal.setAttribute("aria-hidden", "true");
+  syncBodyScrollLock();
+}
+
+function openRsvpModal() {
+  if (!rsvpModal) return;
+  closeFirstVenueModal();
+  closeSecondVenueModal();
+  rsvpModal.classList.remove("hidden");
+  rsvpModal.classList.add("block");
+  rsvpModal.setAttribute("aria-hidden", "false");
+  syncBodyScrollLock();
+}
+
+function closeRsvpModal() {
+  if (!rsvpModal) return;
+  rsvpModal.classList.remove("block");
+  rsvpModal.classList.add("hidden");
+  rsvpModal.setAttribute("aria-hidden", "true");
+  syncBodyScrollLock();
 }
 
 function setPlayingState(playing) {
@@ -156,5 +230,84 @@ if (audioRestartBtn && audio) {
 if (audioBtn) audioBtn.addEventListener("click", toggleAudio);
 if (audioBtnMobile) audioBtnMobile.addEventListener("click", toggleAudio);
 if (audioBtnCard) audioBtnCard.addEventListener("click", toggleAudio);
+
+if (firstVenueCard && firstVenueModal) {
+  firstVenueCard.addEventListener("click", (event) => {
+    // Keep native behavior for nested controls like links.
+    if (event.target.closest("a, button")) return;
+    openFirstVenueModal();
+  });
+
+  firstVenueCard.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    openFirstVenueModal();
+  });
+}
+
+if (secondVenueCard && secondVenueModal) {
+  secondVenueCard.addEventListener("click", (event) => {
+    if (event.target.closest("a, button")) return;
+    openSecondVenueModal();
+  });
+
+  secondVenueCard.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    openSecondVenueModal();
+  });
+}
+
+if (rsvpCard && rsvpModal) {
+  rsvpCard.addEventListener("click", () => {
+    openRsvpModal();
+  });
+
+  rsvpCard.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    openRsvpModal();
+  });
+}
+
+if (firstVenueModalClose) {
+  firstVenueModalClose.addEventListener("click", closeFirstVenueModal);
+}
+
+if (firstVenueModalBackdrop) {
+  firstVenueModalBackdrop.addEventListener("click", closeFirstVenueModal);
+}
+
+if (secondVenueModalClose) {
+  secondVenueModalClose.addEventListener("click", closeSecondVenueModal);
+}
+
+if (secondVenueModalBackdrop) {
+  secondVenueModalBackdrop.addEventListener("click", closeSecondVenueModal);
+}
+
+if (rsvpModalClose) {
+  rsvpModalClose.addEventListener("click", closeRsvpModal);
+}
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Escape") return;
+  closeFirstVenueModal();
+  closeSecondVenueModal();
+  closeRsvpModal();
+});
+
+if (firstVenueDirections) {
+  firstVenueDirections.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+}
+
+if (secondVenueDirections) {
+  secondVenueDirections.addEventListener("click", (event) => {
+    event.stopPropagation();
+  });
+}
+
 initScrollReveal();
 initParallax();

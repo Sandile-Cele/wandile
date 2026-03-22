@@ -146,25 +146,16 @@
             <p
               class="text-xl md:text-2xl text-zinc-700 max-w-xl mb-12 font-medium"
             >
-              Join us on 14 June 2026 for lunch at 13h00, followed by an
-              after party at 17h00 as we celebrate a new decade in style.
+              Join us on 14 June 2026 for lunch at 13h00, followed by an after
+              party at 17h00 as we celebrate a new decade in style.
             </p>
-            <div class="flex flex-wrap gap-4">
-              <a
-                class="bg-black text-primary text-xl px-10 py-5 rounded-full font-black hover:bg-zinc-800 transition-all shadow-xl hover:shadow-primary/20 active:scale-95 flex items-center gap-3"
-                href="#rsvp"
-              >
-                Reserve Your Spot
-                <span
-                  class="material-symbols-outlined"
-                  data-icon="confirmation_number"
-                  >confirmation_number</span
-                >
-              </a>
-            </div>
           </div>
           <!-- Image Cluster -->
-          <div class="lg:col-span-5 relative js-parallax" data-depth="16" data-reveal="right">
+          <div
+            class="lg:col-span-5 relative js-parallax"
+            data-depth="16"
+            data-reveal="right"
+          >
             <div
               class="relative w-full aspect-square bg-primary/10 rounded-xl rotate-3 flex items-center justify-center p-4 border border-primary/20"
             >
@@ -227,16 +218,19 @@
                 >
                   14 JUNE 2026
                 </p>
-                <p class="text-zinc-600 text-lg">
-                  Lunch starts at 13h00
-                </p>
+                <p class="text-zinc-600 text-lg">Lunch starts at 13h00</p>
               </div>
             </div>
-            <!-- Venue -->
+            <!-- First Venue -->
             <div
-              class="md:col-span-8 bg-black p-10 rounded-xl relative overflow-hidden group text-white"
+              class="md:col-span-8 bg-black p-10 rounded-xl relative overflow-hidden group text-white cursor-pointer focus:outline-none focus:ring-4 focus:ring-primary/40"
               id="venue"
+              role="button"
+              tabindex="0"
+              aria-haspopup="dialog"
+              aria-controls="firstVenueModal"
               data-reveal="up"
+              data-first-venue-card
             >
               <div class="relative z-10 h-full flex flex-col justify-between">
                 <div class="flex justify-between items-start">
@@ -251,20 +245,24 @@
                   </div>
                   <span
                     class="bg-primary/20 backdrop-blur text-sm font-bold px-4 py-2 rounded-full border border-primary/30 uppercase tracking-widest"
-                    >Main Venue</span
+                    >First Venue</span
                   >
                 </div>
                 <div class="mt-20">
                   <h3
                     class="font-headline text-4xl font-bold mb-4 text-primary"
                   >
-                    The Fairway Hotel & Spa
+                    The Fairway Hotel, Spa and Golf Resort
                   </h3>
                   <p class="text-xl text-zinc-400 max-w-md">
                     Join us here for lunch at 13h00 before the celebrations
                     continue into the evening.
                   </p>
-                  <button
+                  <a
+                    href="https://maps.app.goo.gl/MVnNo9TeoYvXHiZW8"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-first-venue-directions
                     class="mt-8 flex items-center gap-2 text-primary font-black hover:gap-4 transition-all uppercase text-sm tracking-widest"
                   >
                     Get Directions
@@ -273,7 +271,7 @@
                       data-icon="arrow_forward"
                       >arrow_forward</span
                     >
-                  </button>
+                  </a>
                 </div>
               </div>
               <!-- Abstract Background -->
@@ -284,9 +282,71 @@
                 alt="Luxury Lounge"
                 class="absolute top-0 right-0 w-full h-full object-cover opacity-20 mix-blend-screen group-hover:scale-110 transition-transform duration-700"
                 data-alt="Modern rooftop lounge with warm lighting"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhIcRM1az1-Zqgcr36uemnqxxjiRhSUAphiKYD0zHnZ5truGsQCUnrz-cAgDpvGOwGkCZexf9tWYBx8p-uOeTAzpWJkavRNbFsf4rsbhk2I1YfB2n_uGu4xZlxkq8edqwb5W3UGlS4TUKFxpgi2pvq_zpAkMNDjZ3sr4phzxTjn3Rgcxq2ss61x_noYO4BTVB7wfXz8KjTZGl3MUKDSFpryqmT-BQAmEbmSOdYOXJgBWiWIEmKV6aD6nmiw0jqxUx70-RRWj-pEVig"
+                src="images/hotel-image.png"
               />
             </div>
+
+            <div
+              class="md:col-span-8 bg-black p-10 rounded-xl relative overflow-hidden group text-white cursor-pointer focus:outline-none focus:ring-4 focus:ring-primary/40"
+              role="button"
+              tabindex="0"
+              aria-haspopup="dialog"
+              aria-controls="secondVenueModal"
+              data-reveal="up"
+              data-second-venue-card
+            >
+              <div class="relative z-10 h-full flex flex-col justify-between">
+                <div class="flex justify-between items-start">
+                  <div
+                    class="w-16 h-16 bg-primary/20 backdrop-blur rounded-xl flex items-center justify-center"
+                  >
+                    <span
+                      class="material-symbols-outlined text-primary text-3xl"
+                      data-icon="location_on"
+                      >location_on</span
+                    >
+                  </div>
+                  <span
+                    class="bg-primary/20 backdrop-blur text-sm font-bold px-4 py-2 rounded-full border border-primary/30 uppercase tracking-widest"
+                    >Second Venue</span
+                  >
+                </div>
+                <div class="mt-20">
+                  <h3
+                    class="font-headline text-4xl font-bold mb-4 text-primary"
+                  >
+                    1 Anton Avenue, The Reeds, Centurion
+                  </h3>
+                  <p class="text-xl text-zinc-400 max-w-md">
+                    Join us here for the after party starting at 17h00.
+                  </p>
+                  <a
+                    href="https://maps.app.goo.gl/ey7B9oVZ6Rs1UGZWA"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    data-second-venue-directions
+                    class="mt-8 flex items-center gap-2 text-primary font-black hover:gap-4 transition-all uppercase text-sm tracking-widest"
+                  >
+                    Get Directions
+                    <span
+                      class="material-symbols-outlined"
+                      data-icon="arrow_forward"
+                      >arrow_forward</span
+                    >
+                  </a>
+                </div>
+              </div>
+              <div
+                class="absolute top-0 right-0 w-1/2 h-full opacity-20 confetti-overlay pointer-events-none"
+              ></div>
+              <img
+                alt="After party venue"
+                class="absolute top-0 right-0 w-full h-full object-cover opacity-20 mix-blend-screen group-hover:scale-110 transition-transform duration-700"
+                data-alt="Stylish event venue prepared for an evening celebration"
+                src="images/venue2.png"
+              />
+            </div>
+
             <!-- Dress Code -->
             <div
               class="md:col-span-7 bg-primary p-10 rounded-xl text-black flex flex-col md:flex-row gap-8 items-center justify-between"
@@ -299,7 +359,9 @@
                 >
                   Dress Code
                 </h3>
-                <p class="text-2xl font-bold mb-6 italic">All black smart casual</p>
+                <p class="text-2xl font-bold mb-6 italic">
+                  All black smart casual
+                </p>
                 <p class="text-black/80 font-medium text-lg leading-relaxed">
                   Keep it polished, confident, and effortless with a clean
                   all-black look for the day.
@@ -538,74 +600,82 @@
         </div>
       </section>
       <!-- RSVP Form Section -->
-      <section class="px-6 py-24 max-w-4xl mx-auto" id="rsvp" data-reveal="zoom">
+      <section
+        class="px-6 py-24 max-w-4xl mx-auto"
+        id="rsvp"
+        data-reveal="zoom"
+      >
         <div
-          class="bg-black text-white p-8 md:p-16 rounded-xl shadow-2xl relative overflow-hidden"
+          class="bg-black text-white p-8 md:p-16 rounded-xl shadow-2xl relative overflow-hidden cursor-pointer focus:outline-none focus:ring-4 focus:ring-primary/40"
+          role="button"
+          tabindex="0"
+          aria-haspopup="dialog"
+          aria-controls="rsvpModal"
+          data-rsvp-card
         >
           <div
             class="absolute -top-10 -right-10 w-32 h-32 bg-primary rounded-full blur-3xl opacity-20"
           ></div>
-          <div class="text-center mb-16 relative z-10">
+          <div class="text-center relative z-10">
             <h2
               class="font-headline text-5xl font-black tracking-tight mb-4 text-primary uppercase"
             >
               RSVP Now
             </h2>
             <p class="text-zinc-400 text-lg">
-              Join us for lunch at 13h00 and the after party at 17h00
+              Click this card to open the RSVP form
             </p>
+            <div
+              class="mt-8 inline-flex items-center gap-2 bg-primary text-black px-6 py-3 rounded-full text-xs uppercase tracking-widest font-black"
+            >
+              Open RSVP Form
+              <span class="material-symbols-outlined" data-icon="open_in_new"
+                >open_in_new</span
+              >
+            </div>
           </div>
-          <form class="space-y-8 relative z-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-              <div class="space-y-2">
-                <label
-                  class="font-black text-xs uppercase tracking-widest text-primary px-1"
-                  >Your Full Name</label
-                >
-                <input
-                  class="w-full bg-zinc-900 border-none border-b-2 border-zinc-700 focus:ring-0 focus:border-primary transition-all rounded-sm p-4 text-lg text-white"
-                  placeholder="Wandile Cele"
-                  type="text"
-                />
-              </div>
-              <div class="space-y-2">
-                <label
-                  class="font-black text-xs uppercase tracking-widest text-primary px-1"
-                  >Plus One?</label
-                >
-                <select
-                  class="w-full bg-zinc-900 border-none border-b-2 border-zinc-700 focus:ring-0 focus:border-primary transition-all rounded-sm p-4 text-lg text-white"
-                >
-                  <option>Coming Solo</option>
-                  <option>Bringing a Plus One</option>
-                </select>
-              </div>
-            </div>
-            <div class="space-y-2">
-              <label
-                class="font-black text-xs uppercase tracking-widest text-primary px-1"
-                >Dietary Requirements</label
-              >
-              <input
-                class="w-full bg-zinc-900 border-none border-b-2 border-zinc-700 focus:ring-0 focus:border-primary transition-all rounded-sm p-4 text-lg text-white"
-                placeholder="Any allergies or preferences?"
-                type="text"
-              />
-            </div>
-            <div class="pt-8">
-              <button
-                class="w-full bg-primary text-black py-6 rounded-full font-black text-2xl shadow-xl hover:shadow-primary/30 transition-all hover:scale-[1.02] active:scale-95 flex items-center justify-center gap-4 uppercase tracking-tighter"
-                type="submit"
-              >
-                SEND MY RSVP
-                <span class="material-symbols-outlined" data-icon="send"
-                  >send</span
-                >
-              </button>
-            </div>
-          </form>
         </div>
       </section>
+
+      <!-- People Coming Card -->
+      <div
+        class="md:col-span-12 bg-white p-10 rounded-xl border border-zinc-200 shadow-sm"
+        data-reveal="up"
+      >
+        <div class="flex items-center gap-3 mb-8">
+          <div
+            class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center flex-shrink-0"
+          >
+            <span
+              class="material-symbols-outlined text-black text-2xl"
+              data-icon="groups"
+              style="font-variation-settings: &quot;FILL&quot; 1"
+              >groups</span
+            >
+          </div>
+          <div>
+            <p
+              class="text-xs uppercase tracking-[0.2em] text-zinc-400 font-black"
+            >
+              RSVP List
+            </p>
+            <h3
+              class="font-headline text-2xl font-black text-black tracking-tight"
+            >
+              Who's Coming
+            </h3>
+          </div>
+        </div>
+        <div class="overflow-hidden border border-zinc-200">
+          <iframe
+            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDTmJBXtC83qgqHLF-3uZuUdpVViFlCnsJEfthmZaqzg5eSr5hW9KTZmnwEexk03OET8IXmp_6c9FV/pubhtml?gid=1461785733&amp;single=true&amp;widget=true&amp;headers=false"
+            class="w-full border-0"
+            style="height: 480px"
+            loading="lazy"
+            title="Guest List"
+          ></iframe>
+        </div>
+      </div>
     </main>
     <!-- Footer Component -->
     <footer class="bg-[#fecb00] dark:bg-[#705900] rounded-t-[3rem] w-full">
@@ -669,6 +739,169 @@
         >Celebrate!</span
       >
     </button>
+
+    <div
+      id="firstVenueModal"
+      class="fixed inset-0 z-[70] hidden items-center justify-center p-4 md:p-8"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="firstVenueModalTitle"
+    >
+      <button
+        id="firstVenueModalBackdrop"
+        type="button"
+        aria-label="Close venue map"
+        class="absolute inset-0 bg-black/75 backdrop-blur-sm"
+      ></button>
+      <div
+        class="relative w-full max-w-6xl rounded-xl border border-primary/30 bg-black shadow-[0_30px_80px_rgba(0,0,0,0.55)] overflow-hidden"
+      >
+        <div
+          class="flex items-center justify-between px-5 py-4 border-b border-primary/20"
+        >
+          <div>
+            <p
+              class="text-xs uppercase tracking-[0.2em] text-primary/70 font-black"
+            >
+              First Venue
+            </p>
+            <h3
+              id="firstVenueModalTitle"
+              class="font-headline text-2xl font-black text-primary"
+            >
+              The Fairway Hotel, Spa and Golf Resort
+            </h3>
+          </div>
+          <button
+            id="firstVenueModalClose"
+            type="button"
+            class="w-11 h-11 rounded-full border border-primary/40 text-primary hover:bg-primary hover:text-black transition-colors flex items-center justify-center"
+            aria-label="Close venue map"
+          >
+            <span class="material-symbols-outlined" data-icon="close"
+              >close</span
+            >
+          </button>
+        </div>
+        <div class="bg-zinc-900 h-[70vh] min-h-[320px]">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3582.55433635994!2d27.963798813458727!3d-26.113462827037257!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e95752688ead191%3A0x14f05ec5d23677ee!2sThe%20Fairway%20Hotel%2C%20Spa%20and%20Golf%20Resort!5e0!3m2!1sen!2sza!4v1774168797653!5m2!1sen!2sza"
+            class="w-full h-full border-0"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="secondVenueModal"
+      class="fixed inset-0 z-[70] hidden items-center justify-center p-4 md:p-8"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="secondVenueModalTitle"
+    >
+      <button
+        id="secondVenueModalBackdrop"
+        type="button"
+        aria-label="Close second venue map"
+        class="absolute inset-0 bg-black/75 backdrop-blur-sm"
+      ></button>
+      <div
+        class="relative w-full max-w-6xl rounded-xl border border-primary/30 bg-black shadow-[0_30px_80px_rgba(0,0,0,0.55)] overflow-hidden"
+      >
+        <div
+          class="flex items-center justify-between px-5 py-4 border-b border-primary/20"
+        >
+          <div>
+            <p
+              class="text-xs uppercase tracking-[0.2em] text-primary/70 font-black"
+            >
+              Second Venue
+            </p>
+            <h3
+              id="secondVenueModalTitle"
+              class="font-headline text-2xl font-black text-primary"
+            >
+              1 Anton Street, The Reeds, Centurion
+            </h3>
+          </div>
+          <button
+            id="secondVenueModalClose"
+            type="button"
+            class="w-11 h-11 rounded-full border border-primary/40 text-primary hover:bg-primary hover:text-black transition-colors flex items-center justify-center"
+            aria-label="Close second venue map"
+          >
+            <span class="material-symbols-outlined" data-icon="close"
+              >close</span
+            >
+          </button>
+        </div>
+        <div class="bg-zinc-900 h-[70vh] min-h-[320px]">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3588.92784599457!2d28.13773471345615!3d-25.90474237716752!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1e956568df638b1d%3A0x2ca2bed8ed550417!2s1%20Anton%20St%2C%20The%20Reeds%2C%20Centurion%2C%200061!5e0!3m2!1sen!2sza!4v1774169200416!5m2!1sen!2sza"
+            class="w-full h-full border-0"
+            loading="lazy"
+            allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="rsvpModal"
+      class="fixed inset-0 z-[80] hidden"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="rsvpModalTitle"
+    >
+      <div class="h-full w-full bg-black flex flex-col">
+        <div
+          class="flex items-center justify-between px-4 md:px-6 py-4 border-b border-primary/20 bg-black"
+        >
+          <div>
+            <p
+              class="text-xs uppercase tracking-[0.2em] text-primary/70 font-black"
+            >
+              RSVP
+            </p>
+            <h3
+              id="rsvpModalTitle"
+              class="font-headline text-2xl font-black text-primary"
+            >
+              Guest RSVP Form
+            </h3>
+          </div>
+          <button
+            id="rsvpModalClose"
+            type="button"
+            class="w-11 h-11 rounded-full border border-primary/40 text-primary hover:bg-primary hover:text-black transition-colors flex items-center justify-center"
+            aria-label="Close RSVP form"
+          >
+            <span class="material-symbols-outlined" data-icon="close"
+              >close</span
+            >
+          </button>
+        </div>
+        <div class="flex-1 bg-white">
+          <iframe
+            src="https://docs.google.com/forms/d/e/1FAIpQLScb_ro9Z-WE2UlwOBeIaWR9eFfbZT7DPPwJ_5jCtNs5EoQEZw/viewform?embedded=true"
+            class="w-full h-full border-0"
+            loading="lazy"
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            title="RSVP Form"
+            >Loading...</iframe
+          >
+        </div>
+      </div>
+    </div>
 
     <!-- Audio Player -->
     <audio id="galaMusic" src="Future-Codeine_Crazy.mp3" loop></audio>
