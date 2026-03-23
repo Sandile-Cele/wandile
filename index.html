@@ -57,6 +57,12 @@
   <body
     class="bg-surface font-body text-on-surface selection:bg-primary selection:text-black"
   >
+    <div id="bgAtmosphere" class="bg-atmosphere" aria-hidden="true"></div>
+    <div id="bgEffects" class="bg-effects" aria-hidden="true"></div>
+    <div id="scrollProgress" class="scroll-progress" aria-hidden="true">
+      <span id="scrollProgressFill" class="scroll-progress-fill"></span>
+    </div>
+
     <!-- TopAppBar Component -->
     <nav
       class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 max-w-5xl mx-auto rounded-full mt-4 mx-4 bg-[#0f0f0f] shadow-[0_20px_40px_rgba(254,203,0,0.08)] backdrop-blur-md nav-breathe border border-primary/20"
@@ -172,26 +178,17 @@
         <div class="ambient-orb ambient-orb-b" aria-hidden="true"></div>
         <div class="grid lg:grid-cols-12 gap-12 items-center">
           <div class="lg:col-span-7 z-10" data-reveal="left">
-            <div
-              class="inline-flex items-center gap-2 px-4 py-2 bg-primary text-black rounded-full mb-6 font-black text-xs uppercase tracking-widest"
-              data-reveal="up"
-            >
-              <span
-                class="material-symbols-outlined text-lg"
-                data-icon="auto_awesome"
-                >auto_awesome</span
-              >
-              SAVE THE DATE
-            </div>
             <h1
-              class="font-headline text-6xl md:text-8xl font-black tracking-tighter leading-tight text-white mb-8"
+              class="hero-title font-headline text-6xl md:text-8xl font-black tracking-tighter leading-tight text-white mb-8"
             >
-              Wandi's <br />
-              <span class="neon-gold italic">21st</span><br />
-              birthday
+              <span class="hero-line hero-line-1">Wandi's</span>
+              <span class="hero-line hero-line-2">
+                <span class="neon-gold italic hero-21">21st</span>
+              </span>
+              <span class="hero-line hero-line-3">birthday</span>
             </h1>
             <p
-              class="text-xl md:text-2xl text-zinc-300 max-w-xl mb-12 font-medium"
+              class="hero-subcopy text-xl md:text-2xl text-zinc-300 max-w-xl mb-12 font-medium"
             >
               Join us on 14 June 2026 for lunch at 13h00, followed by an after
               party at 17h00 as we celebrate a new decade in style.
@@ -211,14 +208,22 @@
               ></div>
               <img
                 alt="Birthday Cake"
-                class="w-full h-full object-cover rounded-lg -rotate-6 shadow-2xl grayscale hover:grayscale-0 transition-all duration-700"
+                class="w-full h-full object-cover rounded-lg -rotate-6 shadow-2xl grayscale hover:grayscale-0 transition-all duration-700 cake-click-target"
+                data-cake-image
+                role="button"
+                tabindex="0"
+                aria-label="Tap the cake for a fun animation"
                 data-alt="A luxurious multi-tiered colorful birthday cake"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJuXrzZgGzg3PwbQp5TW4kJBvVWbXteYnj3u5x3gaCWDYYU4AtgqvfzX1FrrgsysLYBa7FGvp7bL87I5P3W4prZgsR4tmHeyjb3Vyqa6YFOeq1_8kh1QNr8AClNMjMmrAo9M4UT7JAyq8qma0JZiMGe_I5wpTPEiaMogot2stl7x4VQEnf-ZxuZeisoC8bJUR3FIhEu-DajxxWYOoDR32-XsRgGjFRr210yUOWnH-W5QUxNpuI4DXhQ61CjFCn1Eh6OGintkbPt0xe"
               />
             </div>
             <div
-              class="absolute -bottom-6 -left-6 bg-black p-6 rounded-lg shadow-xl -rotate-2 max-w-[200px] border border-white/10 js-parallax"
+              class="absolute -bottom-6 -left-6 bg-black p-6 rounded-lg shadow-xl -rotate-2 max-w-[200px] border border-white/10 js-parallax good-vibes-trigger"
               data-depth="10"
+              data-good-vibes-btn
+              role="button"
+              tabindex="0"
+              aria-label="Celebrate with confetti"
             >
               <span
                 class="material-symbols-outlined text-primary text-4xl mb-2"

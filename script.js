@@ -33,6 +33,9 @@ const countdownHours = document.getElementById("countdownHours");
 const countdownMinutes = document.getElementById("countdownMinutes");
 const countdownSeconds = document.getElementById("countdownSeconds");
 const countdownStatus = document.getElementById("countdownStatus");
+const scrollProgressFill = document.getElementById("scrollProgressFill");
+const goodVibesButton = document.querySelector("[data-good-vibes-btn]");
+const cakeImage = document.querySelector("[data-cake-image]");
 
 const eventDate = new Date(2026, 5, 14, 0, 0, 0);
 
@@ -58,6 +61,66 @@ function refreshIframesOnLoad() {
 }
 
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function initBackgroundEffects() {
+  const effectsRoot = document.getElementById("bgEffects");
+  if (!effectsRoot || prefersReducedMotion) return;
+
+  const maxStars = 3;
+  let activeStars = 0;
+  let timerId = null;
+
+  function spawnShootingStar() {
+    if (!effectsRoot.isConnected || document.hidden) return;
+    if (activeStars >= maxStars) return;
+
+    const star = document.createElement("span");
+    star.className = "shooting-star";
+
+    const startX = Math.random() * window.innerWidth;
+    const startY = Math.random() * window.innerHeight;
+    const travelX = 110 + Math.random() * 210;
+    const travelY = 36 + Math.random() * 110;
+    const duration = 900 + Math.random() * 1450;
+    const length = 40 + Math.random() * 95;
+    const thickness = 1.4 + Math.random() * 2.2;
+    const angle = -22 + Math.random() * 9;
+
+    star.style.left = `${startX}px`;
+    star.style.top = `${startY}px`;
+    star.style.setProperty("--travel-x", `${travelX}px`);
+    star.style.setProperty("--travel-y", `${travelY}px`);
+    star.style.setProperty("--star-duration", `${Math.round(duration)}ms`);
+    star.style.setProperty("--star-length", `${Math.round(length)}px`);
+    star.style.setProperty("--star-thickness", `${thickness.toFixed(2)}px`);
+    star.style.setProperty("--star-angle", `${angle.toFixed(2)}deg`);
+
+    activeStars += 1;
+    star.addEventListener("animationend", () => {
+      activeStars = Math.max(0, activeStars - 1);
+      star.remove();
+    });
+
+    effectsRoot.appendChild(star);
+  }
+
+  function queueNextSpawn() {
+    if (timerId) window.clearTimeout(timerId);
+    timerId = window.setTimeout(() => {
+      spawnShootingStar();
+      queueNextSpawn();
+    }, 480 + Math.random() * 2080);
+  }
+
+  queueNextSpawn();
+  window.addEventListener("beforeunload", () => {
+    if (timerId) window.clearTimeout(timerId);
+  });
+
+  // Start with a few immediate stars so the background feels alive on load.
+  window.setTimeout(spawnShootingStar, 120);
+  window.setTimeout(spawnShootingStar, 460);
+}
 
 function initScrollReveal() {
   const revealItems = document.querySelectorAll("[data-reveal]");
@@ -119,6 +182,145 @@ function initParallax() {
   };
 
   window.addEventListener("pointermove", onPointerMove, { passive: true });
+}
+
+function initScrollEffects() {
+  if (prefersReducedMotion) return;
+
+  let rafId = null;
+
+  const updateScrollEffects = () => {
+    const doc = document.documentElement;
+    const scrollTop = window.scrollY || doc.scrollTop || 0;
+    const scrollMax = Math.max(1, doc.scrollHeight - window.innerHeight);
+    const progress = Math.min(1, scrollTop / scrollMax);
+
+    doc.style.setProperty("--scroll-progress", progress.toFixed(4));
+    doc.style.setProperty("--scroll-glow-y", `${(22 + progress * 48).toFixed(2)}%`);
+    doc.style.setProperty("--scroll-glow-opacity", (0.2 + progress * 0.28).toFixed(3));
+
+    if (scrollProgressFill) {
+      scrollProgressFill.style.opacity = `${(0.65 + progress * 0.35).toFixed(3)}`;
+    }
+
+    rafId = null;
+  };
+
+  const queueUpdate = () => {
+    if (rafId !== null) return;
+    rafId = window.requestAnimationFrame(updateScrollEffects);
+  };
+
+  window.addEventListener("scroll", queueUpdate, { passive: true });
+  window.addEventListener("resize", queueUpdate);
+  updateScrollEffects();
+}
+
+function spawnGoodVibesConfetti() {
+  if (prefersReducedMotion || !goodVibesButton) return;
+
+  const burstRoot = document.getElementById("bgEffects") || document.body;
+  const rect = goodVibesButton.getBoundingClientRect();
+  const originX = rect.left + rect.width * 0.5;
+  const originY = rect.top + rect.height * 0.35;
+  const particles = 20;
+
+  for (let i = 0; i < particles; i += 1) {
+    const particle = document.createElement("span");
+    particle.className = "mini-confetti";
+
+    const angle = (Math.PI * 2 * i) / particles + (Math.random() * 0.52 - 0.26);
+    const distance = 38 + Math.random() * 88;
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance - (28 + Math.random() * 36);
+    const rotation = -240 + Math.random() * 480;
+    const hue = 36 + Math.random() * 26;
+    const size = 5 + Math.random() * 8;
+    const duration = 620 + Math.random() * 560;
+
+    particle.style.left = `${originX.toFixed(1)}px`;
+    particle.style.top = `${originY.toFixed(1)}px`;
+    particle.style.setProperty("--confetti-x", `${x.toFixed(1)}px`);
+    particle.style.setProperty("--confetti-y", `${y.toFixed(1)}px`);
+    particle.style.setProperty("--confetti-rot", `${rotation.toFixed(1)}deg`);
+    particle.style.setProperty("--confetti-hue", `${hue.toFixed(1)}`);
+    particle.style.setProperty("--confetti-size", `${size.toFixed(1)}px`);
+    particle.style.setProperty("--confetti-duration", `${Math.round(duration)}ms`);
+
+    particle.addEventListener("animationend", () => {
+      particle.remove();
+    });
+
+    burstRoot.appendChild(particle);
+  }
+}
+
+function spawnCakeSnackBurst() {
+  if (!cakeImage) return;
+
+  const burstRoot = document.getElementById("bgEffects") || document.body;
+  const rect = cakeImage.getBoundingClientRect();
+  const originX = rect.left + rect.width * 0.7;
+  const originY = rect.top + rect.height * 0.28;
+
+  // Retrigger chomp animation on repeated clicks.
+  cakeImage.classList.remove("is-cake-chomp");
+  // eslint-disable-next-line no-unused-expressions
+  cakeImage.offsetWidth;
+  cakeImage.classList.add("is-cake-chomp");
+
+  if (prefersReducedMotion) return;
+
+  const crumbCount = 16;
+  for (let i = 0; i < crumbCount; i += 1) {
+    const crumb = document.createElement("span");
+    crumb.className = "cake-crumb";
+
+    const angle = (Math.PI * 1.22 * i) / crumbCount + (Math.random() * 0.5 - 0.25);
+    const distance = 24 + Math.random() * 76;
+    const x = Math.cos(angle) * distance;
+    const y = Math.sin(angle) * distance - (12 + Math.random() * 44);
+    const size = 5 + Math.random() * 7;
+    const duration = 520 + Math.random() * 520;
+
+    crumb.style.left = `${originX.toFixed(1)}px`;
+    crumb.style.top = `${originY.toFixed(1)}px`;
+    crumb.style.setProperty("--crumb-x", `${x.toFixed(1)}px`);
+    crumb.style.setProperty("--crumb-y", `${y.toFixed(1)}px`);
+    crumb.style.setProperty("--crumb-size", `${size.toFixed(1)}px`);
+    crumb.style.setProperty("--crumb-duration", `${Math.round(duration)}ms`);
+
+    crumb.addEventListener("animationend", () => {
+      crumb.remove();
+    });
+
+    burstRoot.appendChild(crumb);
+  }
+
+  const nomCount = 4;
+  for (let i = 0; i < nomCount; i += 1) {
+    const nom = document.createElement("span");
+    nom.className = "cake-nom";
+    nom.textContent = "NOM";
+
+    const x = -34 + Math.random() * 78;
+    const y = -44 - Math.random() * 66;
+    const rot = -20 + Math.random() * 40;
+    const duration = 620 + Math.random() * 520;
+
+    nom.style.left = `${(originX - 10 + Math.random() * 20).toFixed(1)}px`;
+    nom.style.top = `${(originY - 8 + Math.random() * 18).toFixed(1)}px`;
+    nom.style.setProperty("--nom-x", `${x.toFixed(1)}px`);
+    nom.style.setProperty("--nom-y", `${y.toFixed(1)}px`);
+    nom.style.setProperty("--nom-rot", `${rot.toFixed(1)}deg`);
+    nom.style.setProperty("--nom-duration", `${Math.round(duration)}ms`);
+
+    nom.addEventListener("animationend", () => {
+      nom.remove();
+    });
+
+    burstRoot.appendChild(nom);
+  }
 }
 
 function syncBodyScrollLock() {
@@ -427,6 +629,30 @@ if (reserveGiftCard && reserveGiftModal) {
   });
 }
 
+if (goodVibesButton) {
+  goodVibesButton.addEventListener("click", () => {
+    spawnGoodVibesConfetti();
+  });
+
+  goodVibesButton.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    spawnGoodVibesConfetti();
+  });
+}
+
+if (cakeImage) {
+  cakeImage.addEventListener("click", () => {
+    spawnCakeSnackBurst();
+  });
+
+  cakeImage.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter" && event.key !== " ") return;
+    event.preventDefault();
+    spawnCakeSnackBurst();
+  });
+}
+
 if (firstVenueModalClose) {
   firstVenueModalClose.addEventListener("click", closeFirstVenueModal);
 }
@@ -480,5 +706,7 @@ if (secondVenueDirections) {
 
 initScrollReveal();
 initParallax();
+initScrollEffects();
+initBackgroundEffects();
 updateCountdown();
 setInterval(updateCountdown, 1000);
