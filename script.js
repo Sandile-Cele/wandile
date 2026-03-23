@@ -29,6 +29,27 @@ const reserveGiftCard = document.querySelector("[data-reserve-gift-card]");
 const reserveGiftModal = document.getElementById("reserveGiftModal");
 const reserveGiftModalClose = document.getElementById("reserveGiftModalClose");
 
+function refreshIframesOnLoad() {
+  const refreshableIframes = document.querySelectorAll('[data-refresh-on-load="true"]');
+  if (!refreshableIframes.length) return;
+
+  const cacheBust = Date.now().toString();
+
+  refreshableIframes.forEach((iframe) => {
+    const src = iframe.getAttribute("src");
+    if (!src) return;
+
+    try {
+      const url = new URL(src, window.location.href);
+      url.searchParams.set("_cb", cacheBust);
+      iframe.src = url.toString();
+    } catch {
+      const separator = src.includes("?") ? "&" : "?";
+      iframe.src = `${src}${separator}_cb=${cacheBust}`;
+    }
+  });
+}
+
 const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 function initScrollReveal() {
@@ -396,6 +417,12 @@ document.addEventListener("keydown", (event) => {
   closeSecondVenueModal();
   closeRsvpModal();
   closeReserveGiftModal();
+});
+
+refreshIframesOnLoad();
+
+window.addEventListener("pageshow", (event) => {
+  if (event.persisted) refreshIframesOnLoad();
 });
 
 if (firstVenueDirections) {
