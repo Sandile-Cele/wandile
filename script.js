@@ -53,6 +53,14 @@ function refreshIframesOnLoad() {
       const url = new URL(src, window.location.href);
       url.searchParams.set("_cb", cacheBust);
       iframe.src = url.toString();
+      
+      // Force a reload of the original source if cached bypass hasn't triggered
+      // by temporarily resetting it
+      const newUrl = url.toString();
+      iframe.removeAttribute('src');
+      setTimeout(() => {
+        iframe.setAttribute('src', newUrl);
+      }, 50);
     } catch {
       const separator = src.includes("?") ? "&" : "?";
       iframe.src = `${src}${separator}_cb=${cacheBust}`;
