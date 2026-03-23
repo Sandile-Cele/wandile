@@ -28,6 +28,13 @@ const floatingRsvpBtn = document.getElementById("floatingRsvpBtn");
 const reserveGiftCard = document.querySelector("[data-reserve-gift-card]");
 const reserveGiftModal = document.getElementById("reserveGiftModal");
 const reserveGiftModalClose = document.getElementById("reserveGiftModalClose");
+const countdownDays = document.getElementById("countdownDays");
+const countdownHours = document.getElementById("countdownHours");
+const countdownMinutes = document.getElementById("countdownMinutes");
+const countdownSeconds = document.getElementById("countdownSeconds");
+const countdownStatus = document.getElementById("countdownStatus");
+
+const eventDate = new Date(2026, 5, 14, 0, 0, 0);
 
 function refreshIframesOnLoad() {
   const refreshableIframes = document.querySelectorAll('[data-refresh-on-load="true"]');
@@ -225,6 +232,40 @@ function closeReserveGiftModal() {
   reserveGiftModal.classList.add("hidden");
   reserveGiftModal.setAttribute("aria-hidden", "true");
   syncBodyScrollLock();
+}
+
+function padCountdownValue(value, width = 2) {
+  return String(Math.max(0, value)).padStart(width, "0");
+}
+
+function updateCountdown() {
+  if (!countdownDays || !countdownHours || !countdownMinutes || !countdownSeconds) {
+    return;
+  }
+
+  const now = new Date();
+  const delta = eventDate.getTime() - now.getTime();
+
+  if (delta <= 0) {
+    countdownDays.textContent = "000";
+    countdownHours.textContent = "00";
+    countdownMinutes.textContent = "00";
+    countdownSeconds.textContent = "00";
+    if (countdownStatus) countdownStatus.textContent = "It is celebration day";
+    return;
+  }
+
+  const totalSeconds = Math.floor(delta / 1000);
+  const days = Math.floor(totalSeconds / (24 * 60 * 60));
+  const hours = Math.floor((totalSeconds % (24 * 60 * 60)) / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  countdownDays.textContent = padCountdownValue(days, 3);
+  countdownHours.textContent = padCountdownValue(hours);
+  countdownMinutes.textContent = padCountdownValue(minutes);
+  countdownSeconds.textContent = padCountdownValue(seconds);
+  if (countdownStatus) countdownStatus.textContent = "Counting down";
 }
 
 function setPlayingState(playing) {
@@ -439,3 +480,5 @@ if (secondVenueDirections) {
 
 initScrollReveal();
 initParallax();
+updateCountdown();
+setInterval(updateCountdown, 1000);

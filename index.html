@@ -136,7 +136,9 @@
         title="Play music"
         class="rounded-xl px-4 py-3 text-sm font-black uppercase tracking-widest text-zinc-300 hover:bg-primary hover:text-black transition-colors text-left"
       >
-        <span class="material-symbols-outlined align-middle mr-2" id="audioIconMobile"
+        <span
+          class="material-symbols-outlined align-middle mr-2"
+          id="audioIconMobile"
           >volume_off</span
         >
         <span class="align-middle">Music</span>
@@ -150,80 +152,6 @@
     </div>
 
     <main class="pt-32 pb-12 overflow-x-hidden">
-      <!-- Reserve Gift Section -->
-      <section class="px-6 py-24 max-w-4xl mx-auto" data-reveal="zoom">
-        <div
-          class="bg-black text-white p-8 md:p-16 rounded-xl shadow-2xl relative overflow-hidden cursor-pointer focus:outline-none focus:ring-4 focus:ring-primary/40"
-          role="button"
-          tabindex="0"
-          aria-haspopup="dialog"
-          aria-controls="reserveGiftModal"
-          data-reserve-gift-card
-        >
-          <div
-            class="absolute -top-10 -right-10 w-32 h-32 bg-primary rounded-full blur-3xl opacity-20"
-          ></div>
-          <div class="text-center relative z-10">
-            <h2
-              class="font-headline text-5xl tracking-tight mb-4 neon-gold uppercase"
-            >
-              Reserve Gift
-            </h2>
-            <p class="text-zinc-400 text-lg">
-              Click this card to open the gift reservation form
-            </p>
-            <div
-              class="mt-8 inline-flex items-center gap-2 bg-primary text-black px-6 py-3 rounded-full text-xs uppercase tracking-widest font-black"
-            >
-              Open Gift Form
-              <span class="material-symbols-outlined" data-icon="open_in_new"
-                >open_in_new</span
-              >
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- Reserve Gift List Card -->
-      <div
-        class="max-w-4xl mx-auto bg-[#111111] p-10 rounded-xl border border-zinc-800 shadow-sm px-6"
-        data-reveal="up"
-      >
-        <div class="flex items-center gap-3 mb-8">
-          <div
-            class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center flex-shrink-0"
-          >
-            <span
-              class="material-symbols-outlined text-black text-2xl"
-              data-icon="redeem"
-              style="font-variation-settings: &quot;FILL&quot; 1"
-              >redeem</span
-            >
-          </div>
-          <div>
-            <p
-              class="text-xs uppercase tracking-[0.2em] text-zinc-400 font-black"
-            >
-              Reserve Gift
-            </p>
-            <h3
-              class="font-headline text-2xl font-black text-white tracking-tight"
-            >
-              Gifts Still Available
-            </h3>
-          </div>
-        </div>
-        <div class="overflow-hidden border border-zinc-800">
-          <iframe
-            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSR3yfgWZm03JHgrDs-mxmWkiJOfiv2IhheC4N4KDjef_O8RS5mhrfs9dqSbuY0dWmq6UsRbZx_jQ4g/pubhtml?gid=271324456&amp;single=true&amp;widget=true&amp;headers=false"
-            data-refresh-on-load="true"
-            class="w-full border-0"
-            style="height: 480px; filter: invert(1) hue-rotate(180deg);"
-            loading="lazy"
-            title="Reserve Gift List"
-          ></iframe>
-        </div>
-      </div>
 
       <!-- Hero Section -->
       <section
@@ -298,35 +226,157 @@
       </section>
       <!-- Details Section -->
       <section
-        class="px-6 py-20 bg-surface-container-low rounded-t-xl lg:rounded-t-[5rem]"
+        class="px-6 py-20 bg-surface-container-low rounded-t-xl lg:rounded-t-[rem]"
         id="details"
       >
+      
         <div class="max-w-7xl mx-auto">
-          <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-            <!-- Time & Date -->
+          <!-- Reserve Gift Section -->
+          <section class="px-6 pt-6 pb-16 max-w-4xl mx-auto" data-reveal="zoom">
             <div
-              class="md:col-span-4 bg-[#111111] p-10 rounded-xl shadow-sm border border-zinc-800 flex flex-col justify-between hover:shadow-[0_8px_30px_rgba(254,203,0,0.1)] transition-shadow"
-              data-reveal="up"
+              class="bg-black text-white p-8 md:p-16 rounded-xl shadow-2xl relative overflow-hidden cursor-pointer focus:outline-none focus:ring-4 focus:ring-primary/40"
+              role="button"
+              tabindex="0"
+              aria-haspopup="dialog"
+              aria-controls="reserveGiftModal"
+              data-reserve-gift-card
             >
               <div
-                class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-12"
+                class="absolute -top-0 -right-10 w-32 h-32 bg-primary rounded-full blur-3xl opacity-20"
+              ></div>
+              <div class="text-center relative z-10">
+                <h2
+                  class="font-headline text-5xl tracking-tight mb-4 neon-gold uppercase"
+                >
+                  Reserve Gift
+                </h2>
+                <p class="text-zinc-400 text-lg">
+                  Click this card to open the gift reservation form
+                </p>
+                <div
+                  class="mt-8 inline-flex items-center gap-2 bg-primary text-black px-6 py-3 rounded-full text-xs uppercase tracking-widest font-black"
+                >
+                  Open Gift Form
+                  <span class="material-symbols-outlined" data-icon="open_in_new"
+                    >open_in_new</span
+                  >
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Reserve Gift List Card -->
+          <div
+            class="max-w-4xl mx-auto bg-[#111111] p-10 rounded-xl border border-zinc-800 shadow-sm px-6 mb-10 md:mb-14"
+            data-reveal="up"
+          >
+            <div class="flex items-center gap-3 mb-8">
+              <div
+                class="w-12 h-12 bg-primary rounded-xl flex items-center justify-center flex-shrink-0"
               >
                 <span
-                  class="material-symbols-outlined text-black text-3xl"
-                  data-icon="calendar_today"
-                  >calendar_today</span
+                  class="material-symbols-outlined text-black text-2xl"
+                  data-icon="redeem"
+                  style="font-variation-settings: &quot;FILL&quot; 1"
+                  >redeem</span
                 >
               </div>
               <div>
-                <h3 class="font-headline text-3xl font-bold mb-2">
-                  Save the Date
-                </h3>
                 <p
-                  class="text-4xl font-black text-primary font-headline tracking-tighter mb-4"
+                  class="text-xs uppercase tracking-[0.2em] text-zinc-400 font-black"
                 >
-                  14 JUNE 2026
+                  Reserve Gift
                 </p>
-                <p class="text-zinc-400 text-lg">Lunch starts at 13h00</p>
+                <h3
+                  class="font-headline text-2xl font-black text-white tracking-tight"
+                >
+                  Gifts Still Available
+                </h3>
+              </div>
+            </div>
+            <div class="overflow-hidden border border-zinc-800">
+              <iframe
+                src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSR3yfgWZm03JHgrDs-mxmWkiJOfiv2IhheC4N4KDjef_O8RS5mhrfs9dqSbuY0dWmq6UsRbZx_jQ4g/pubhtml?gid=271324456&amp;single=true&amp;widget=true&amp;headers=false"
+                data-refresh-on-load="true"
+                class="w-full border-0"
+                style="height: 600px; filter: invert(1) hue-rotate(180deg)"
+                loading="lazy"
+                title="Reserve Gift List"
+              ></iframe>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+            <!-- Time & Date -->
+            <div class="md:col-span-4 flex flex-col gap-6">
+              <div
+                class="bg-[#111111] p-10 rounded-xl shadow-sm border border-zinc-800 flex flex-col justify-between hover:shadow-[0_8px_30px_rgba(254,203,0,0.1)] transition-shadow"
+                data-reveal="up"
+              >
+                <div
+                  class="w-16 h-16 bg-primary rounded-xl flex items-center justify-center mb-12"
+                >
+                  <span
+                    class="material-symbols-outlined text-black text-3xl"
+                    data-icon="calendar_today"
+                    >calendar_today</span
+                  >
+                </div>
+                <div>
+                  <h3 class="font-headline text-3xl font-bold mb-2">
+                    Save the Date
+                  </h3>
+                  <p
+                    class="text-4xl font-black text-primary font-headline tracking-tighter mb-4"
+                  >
+                    14 JUNE 2026
+                  </p>
+                  <p class="text-zinc-400 text-lg">Lunch starts at 13h00</p>
+                </div>
+              </div>
+
+              <!-- Countdown Card -->
+              <div
+                class="countdown-card bg-black p-8 rounded-xl border border-primary/20 relative overflow-hidden"
+                data-reveal="up"
+              >
+                <div class="countdown-glow" aria-hidden="true"></div>
+                <div class="relative z-10">
+                  <p
+                    class="text-xs uppercase tracking-[0.25em] text-primary/70 font-black mb-3"
+                  >
+                    Countdown
+                  </p>
+                  <h3 class="font-headline text-3xl font-black text-white mb-2">
+                    Until 14 June 2026
+                  </h3>
+                  <p class="text-zinc-400 text-sm mb-6">
+                    Time left until celebration day
+                  </p>
+
+                  <div class="grid grid-cols-2 gap-3">
+                    <div class="countdown-unit">
+                      <span class="countdown-value" id="countdownDays">000</span>
+                      <span class="countdown-label">Days</span>
+                    </div>
+                    <div class="countdown-unit">
+                      <span class="countdown-value" id="countdownHours">00</span>
+                      <span class="countdown-label">Hours</span>
+                    </div>
+                    <div class="countdown-unit">
+                      <span class="countdown-value" id="countdownMinutes">00</span>
+                      <span class="countdown-label">Minutes</span>
+                    </div>
+                    <div class="countdown-unit">
+                      <span class="countdown-value" id="countdownSeconds">00</span>
+                      <span class="countdown-label">Seconds</span>
+                    </div>
+                  </div>
+
+                  <p id="countdownStatus" class="text-primary text-xs font-black tracking-widest uppercase mt-5">
+                    Event loading
+                  </p>
+                </div>
               </div>
             </div>
             <!-- First Venue -->
@@ -437,9 +487,7 @@
               <p class="font-black text-xl uppercase tracking-tighter">
                 After party starts at 17h00
               </p>
-              <p class="text-zinc-400 font-medium">
-                Venue:At the Cele's house
-              </p>
+              <p class="text-zinc-400 font-medium">Venue:At the Cele's house</p>
             </div>
 
             <!-- Music Player Card -->
@@ -658,7 +706,6 @@
         </div>
       </section>
 
-
       <!-- People Coming Card -->
       <div
         class="md:col-span-12 bg-[#111111] p-10 rounded-xl border border-zinc-800 shadow-sm"
@@ -692,16 +739,17 @@
           <iframe
             src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQDTmJBXtC83qgqHLF-3uZuUdpVViFlCnsJEfthmZaqzg5eSr5hW9KTZmnwEexk03OET8IXmp_6c9FV/pubhtml?gid=1461785733&amp;single=true&amp;widget=true&amp;headers=false"
             class="w-full border-0"
-            style="height: 480px; filter: invert(1) hue-rotate(180deg);"
+            style="height: 480px; filter: invert(1) hue-rotate(180deg)"
             loading="lazy"
             title="Guest List"
           ></iframe>
         </div>
       </div>
-
     </main>
     <!-- Footer Component -->
-    <footer class="bg-[#0d0d0d] border-t border-primary/30 rounded-t-[3rem] w-full">
+    <footer
+      class="bg-[#0d0d0d] border-t border-primary/30 rounded-t-[3rem] w-full"
+    >
       <div
         class="w-full flex flex-col md:flex-row items-center justify-between px-12 py-10 gap-6 max-w-7xl mx-auto"
       >
@@ -762,7 +810,7 @@
       >
       <span
         class="absolute right-20 bg-black text-primary text-xs font-black px-3 py-1 rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none uppercase tracking-widest border border-primary/20"
-        >Celebrate!</span
+        >RSVP!</span
       >
     </button>
 
