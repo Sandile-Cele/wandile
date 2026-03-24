@@ -52,7 +52,36 @@
         },
       };
     </script>
-    <link href="styles.css" rel="stylesheet" />
+    <script>
+      window.__SITE_VERSION__ = "2026-03-24-1";
+
+      async function checkForSiteUpdate() {
+        try {
+          const response = await fetch(`version.json?t=${Date.now()}`, {
+            cache: "no-store",
+          });
+
+          if (!response.ok) return;
+
+          const data = await response.json();
+          if (data.version && data.version !== window.__SITE_VERSION__) {
+            window.location.reload();
+          }
+        } catch (error) {
+          // Ignore transient network errors during version polling.
+        }
+      }
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.visibilityState === "visible") {
+          checkForSiteUpdate();
+        }
+      });
+
+      window.addEventListener("focus", checkForSiteUpdate);
+      window.setInterval(checkForSiteUpdate, 60000);
+    </script>
+    <link href="styles.css?v=2026-03-24-1" rel="stylesheet" />
   </head>
   <body
     class="bg-surface font-body text-on-surface selection:bg-primary selection:text-black"
@@ -1116,6 +1145,6 @@
 
     <!-- Audio Player -->
     <audio id="galaMusic" src="Future-Codeine_Crazy.mp3" loop></audio>
-    <script src="script.js"></script>
+    <script src="script.js?v=2026-03-24-1"></script>
   </body>
 </html>
