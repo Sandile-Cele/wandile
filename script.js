@@ -33,6 +33,10 @@ const countdownHours = document.getElementById("countdownHours");
 const countdownMinutes = document.getElementById("countdownMinutes");
 const countdownSeconds = document.getElementById("countdownSeconds");
 const countdownStatus = document.getElementById("countdownStatus");
+const maintenanceHours = document.getElementById("maintenanceHours");
+const maintenanceMinutes = document.getElementById("maintenanceMinutes");
+const maintenanceSeconds = document.getElementById("maintenanceSeconds");
+const maintenanceStatus = document.getElementById("maintenanceStatus");
 const scrollProgressFill = document.getElementById("scrollProgressFill");
 const goodVibesButton = document.querySelector("[data-good-vibes-btn]");
 const cakeImage = document.querySelector("[data-cake-image]");
@@ -478,6 +482,44 @@ function updateCountdown() {
   if (countdownStatus) countdownStatus.textContent = "Counting down";
 }
 
+function getMaintenanceEndsAt() {
+  const key = "reserveGiftMaintenanceEndsAt";
+  const now = Date.now();
+  const existingRaw = window.localStorage.getItem(key);
+  const existing = existingRaw ? Number(existingRaw) : NaN;
+
+  if (Number.isFinite(existing) && existing > now) return existing;
+
+  const nextEnd = now + 27 * 60 * 60 * 1000;
+  window.localStorage.setItem(key, String(nextEnd));
+  return nextEnd;
+}
+
+function updateMaintenanceCountdown() {
+  if (!maintenanceHours || !maintenanceMinutes || !maintenanceSeconds) return;
+
+  const maintenanceEndsAt = getMaintenanceEndsAt();
+  const delta = maintenanceEndsAt - Date.now();
+
+  if (delta <= 0) {
+    maintenanceHours.textContent = "00";
+    maintenanceMinutes.textContent = "00";
+    maintenanceSeconds.textContent = "00";
+    if (maintenanceStatus) maintenanceStatus.textContent = "Maintenance window complete";
+    return;
+  }
+
+  const totalSeconds = Math.floor(delta / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+
+  maintenanceHours.textContent = padCountdownValue(hours);
+  maintenanceMinutes.textContent = padCountdownValue(minutes);
+  maintenanceSeconds.textContent = padCountdownValue(seconds);
+  if (maintenanceStatus) maintenanceStatus.textContent = "Maintenance countdown active";
+}
+
 function setPlayingState(playing) {
   document.body.classList.toggle("music-playing", playing);
 
@@ -717,7 +759,9 @@ initParallax();
 initScrollEffects();
 initBackgroundEffects();
 updateCountdown();
+updateMaintenanceCountdown();
 setInterval(updateCountdown, 1000);
+setInterval(updateMaintenanceCountdown, 1000);
 
 function showDelayWarningEmoji() {
   const emoji = document.createElement("div");
