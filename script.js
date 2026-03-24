@@ -593,6 +593,7 @@ function renderGiftOptions(items) {
   items.forEach((item) => {
     const option = document.createElement("option");
     option.value = String(item.no ?? "");
+      option.dataset.giftName = String(item.giftName ?? "");
     option.textContent = `${item.no}. ${item.giftName}`;
     reserveGiftNoSelect.appendChild(option);
   });
@@ -661,18 +662,7 @@ async function loadAvailableGifts() {
   }
 }
 
-async function handleReserveGiftSubmit(event) {
-  event.preventDefault();
-  if (!reserveGiftNameInput || !reserveGiftNoSelect) return;
-
-  const reservedBy = reserveGiftNameInput.value.trim();
-  const no = reserveGiftNoSelect.value;
-
-  if (!reservedBy || !no) {
-    setReserveGiftMessage("Enter your name and select a gift.", "error");
-    return;
-  }
-
+async function submitReserveGift(reservedBy, no, giftName) {
   setReserveGiftFormPending(true);
   setReserveGiftMessage("Submitting reservation...", "muted");
 
@@ -680,6 +670,7 @@ async function handleReserveGiftSubmit(event) {
     const payload = new URLSearchParams();
     payload.set("action", "reserve");
     payload.set("no", no);
+    if (giftName) payload.set("giftName", giftName);
     payload.set("reservedBy", reservedBy);
 
     const response = await fetch(reserveGiftApiUrl, {
@@ -707,6 +698,85 @@ async function handleReserveGiftSubmit(event) {
     setReserveGiftFormPending(false);
     await loadAvailableGifts();
   }
+}
+
+function showReserveGiftConfirm(reservedBy, giftLabel) {
+  const dialog = document.getElementById("reserveGiftConfirmDialog");
+  const nameEl = document.getElementById("reserveGiftConfirmName");
+  const giftEl = document.getElementById("reserveGiftConfirmGiftName");
+  const okBtn = document.getElementById("reserveGiftConfirmOk");
+  const cancelBtn = document.getElementById("reserveGiftConfirmCancel");
+  const backdrop = document.getElementById("reserveGiftConfirmBackdrop");
+  if (!dialog || !okBtn || !cancelBtn) return Promise.resolve(true);
+
+  if (nameEl) nameEl.textContent = reservedBy;
+  if (giftEl) giftEl.textContent = giftLabel;
+
+  dialog.classList.remove("hidden");
+  dialog.classList.add("flex");
+  dialog.setAttribute("aria-hidden", "false");
+
+  return new Promise((resolve) => {
+    function cleanup() {
+      okBtn.removeEventListener("click", onConfirm);
+      cancelBtn.removeEventListener("click", onCancel);
+      document.removeEventListener("keydown", onKeydown);
+      if (backdrop) backdrop.removeEventListener("click", onCancel);
+    }
+
+    function closeDialog(confirmed) {
+      cleanup();
+      dialog.classList.remove("flex");
+      dialog.classList.add("hidden");
+      dialog.setAttribute("aria-hidden", "true");
+      resolve(confirmed);
+    }
+
+    function onConfirm() {
+      closeDialog(true);
+    }
+
+    function onCancel() {
+      closeDialog(false);
+    }
+
+    function onKeydown(event) {
+      if (event.key === "Escape") {
+        onCancel();
+      }
+    }
+
+    okBtn.addEventListener("click", onConfirm);
+    cancelBtn.addEventListener("click", onCancel);
+    document.addEventListener("keydown", onKeydown);
+    if (backdrop) backdrop.addEventListener("click", onCancel);
+  });
+}
+
+async function handleReserveGiftSubmit(event) {
+  event.preventDefault();
+  if (!reserveGiftNameInput || !reserveGiftNoSelect) return;
+
+  const reservedBy = reserveGiftNameInput.value.trim();
+  const no = reserveGiftNoSelect.value;
+
+  if (!reservedBy || !no) {
+    setReserveGiftMessage("Enter your name and select a gift.", "error");
+    return;
+  }
+
+  const selectedOption = reserveGiftNoSelect.options[reserveGiftNoSelect.selectedIndex];
+  const giftLabel = selectedOption ? selectedOption.textContent : `Gift #${no}`;
+  const giftName = selectedOption?.dataset.giftName?.trim()
+    || (selectedOption ? selectedOption.textContent.replace(/^\s*\d+\.\s*/, "").trim() : "");
+  const confirmed = await showReserveGiftConfirm(reservedBy, giftLabel);
+
+  if (!confirmed) {
+    setReserveGiftMessage("Reservation cancelled.", "muted");
+    return;
+  }
+
+  await submitReserveGift(reservedBy, no, giftName);
 }
 
 function setPlayingState(playing) {

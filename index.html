@@ -1081,6 +1081,39 @@
       </div>
     </div>
 
+    <!-- Reserve Gift Confirmation Dialog -->
+    <div
+      id="reserveGiftConfirmDialog"
+      class="fixed inset-0 z-[90] hidden items-center justify-center p-4"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="reserveGiftConfirmTitle"
+    >
+      <div class="absolute inset-0 bg-black/70 backdrop-blur-sm" id="reserveGiftConfirmBackdrop"></div>
+      <div class="relative z-10 w-full max-w-sm rounded-2xl border border-zinc-700 bg-zinc-900 p-6 shadow-2xl">
+        <h3 id="reserveGiftConfirmTitle" class="font-headline text-xl font-black text-white mb-1">Confirm Reservation</h3>
+        <p class="text-sm text-zinc-400 mb-4">You are about to reserve:</p>
+        <div class="rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 mb-5">
+          <p id="reserveGiftConfirmGiftName" class="text-primary font-black text-sm"></p>
+          <p class="text-xs text-zinc-400 mt-0.5">Reserved by: <span id="reserveGiftConfirmName" class="text-zinc-200 font-medium"></span></p>
+        </div>
+        <p class="text-xs text-zinc-500 mb-5">Once reserved, this gift will be marked as taken. Are you sure?</p>
+        <div class="flex gap-3">
+          <button
+            id="reserveGiftConfirmCancel"
+            type="button"
+            class="flex-1 rounded-full border border-zinc-600 text-zinc-300 px-4 py-2.5 text-xs uppercase tracking-widest font-black hover:border-zinc-400 transition-colors"
+          >Cancel</button>
+          <button
+            id="reserveGiftConfirmOk"
+            type="button"
+            class="flex-1 rounded-full bg-primary text-black px-4 py-2.5 text-xs uppercase tracking-widest font-black hover:scale-105 transition-transform active:scale-95"
+          >Confirm</button>
+        </div>
+      </div>
+    </div>
+
     <!-- Audio Player -->
     <audio id="galaMusic" src="Future-Codeine_Crazy.mp3" loop></audio>
     <script src="script.js"></script>
