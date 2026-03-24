@@ -719,35 +719,48 @@ initBackgroundEffects();
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-const delayWarningBtn = document.getElementById("delayWarningBtn");
-if (delayWarningBtn) {
-  delayWarningBtn.addEventListener("click", () => {
-    const emoji = document.createElement("div");
-    emoji.textContent = "😭";
-    emoji.style.position = "fixed";
-    emoji.style.top = "50%";
-    emoji.style.left = "50%";
-    emoji.style.transform = "translate(-50%, -50%) scale(0.1)";
-    emoji.style.fontSize = "15rem";
-    emoji.style.zIndex = "9999";
-    emoji.style.pointerEvents = "none";
-    emoji.style.transition = "all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
-    emoji.style.opacity = "0";
-    
-    document.body.appendChild(emoji);
-    
-    // Trigger layout
-    void emoji.offsetWidth;
+function showDelayWarningEmoji() {
+  const emoji = document.createElement("div");
+  emoji.textContent = "😭";
+  emoji.style.position = "fixed";
+  emoji.style.top = "50%";
+  emoji.style.left = "50%";
+  emoji.style.transform = "translate(-50%, -50%) scale(0.1)";
+  emoji.style.fontSize = "15rem";
+  emoji.style.zIndex = "9999";
+  emoji.style.pointerEvents = "none";
+  emoji.style.transition = "all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)";
+  emoji.style.opacity = "0";
 
-    // Animate in
-    emoji.style.transform = "translate(-50%, -50%) scale(1)";
-    emoji.style.opacity = "1";
-    
-    // Remove out
-    setTimeout(() => {
-      emoji.style.transform = "translate(-50%, -50%) scale(1.5)";
-      emoji.style.opacity = "0";
-      setTimeout(() => emoji.remove(), 500);
-    }, 3000);
-  });
+  document.body.appendChild(emoji);
+
+  // Trigger layout
+  void emoji.offsetWidth;
+
+  // Animate in
+  emoji.style.transform = "translate(-50%, -50%) scale(1)";
+  emoji.style.opacity = "1";
+
+  // Remove out
+  setTimeout(() => {
+    emoji.style.transform = "translate(-50%, -50%) scale(1.5)";
+    emoji.style.opacity = "0";
+    setTimeout(() => emoji.remove(), 500);
+  }, 1300);
 }
+
+document.addEventListener("click", (event) => {
+  const trigger = event.target.closest("[data-delay-warning-trigger]");
+  if (!trigger) return;
+  showDelayWarningEmoji();
+});
+
+document.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+
+  const trigger = event.target.closest("[data-delay-warning-trigger]");
+  if (!trigger) return;
+
+  event.preventDefault();
+  showDelayWarningEmoji();
+});
