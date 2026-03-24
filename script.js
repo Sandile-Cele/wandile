@@ -28,6 +28,14 @@ const floatingRsvpBtn = document.getElementById("floatingRsvpBtn");
 const reserveGiftCard = document.querySelector("[data-reserve-gift-card]");
 const reserveGiftModal = document.getElementById("reserveGiftModal");
 const reserveGiftModalClose = document.getElementById("reserveGiftModalClose");
+const reserveGiftForm = document.getElementById("reserveGiftForm");
+const reserveGiftNameInput = document.getElementById("reserveGiftName");
+const reserveGiftNoSelect = document.getElementById("reserveGiftNo");
+const reserveGiftSubmit = document.getElementById("reserveGiftSubmit");
+const reserveGiftFormMessage = document.getElementById("reserveGiftFormMessage");
+const reserveGiftTableBody = document.getElementById("reserveGiftTableBody");
+const reserveGiftRefreshBtn = document.getElementById("reserveGiftRefreshBtn");
+const reserveGiftLastUpdated = document.getElementById("reserveGiftLastUpdated");
 const countdownDays = document.getElementById("countdownDays");
 const countdownHours = document.getElementById("countdownHours");
 const countdownMinutes = document.getElementById("countdownMinutes");
@@ -38,6 +46,8 @@ const goodVibesButton = document.querySelector("[data-good-vibes-btn]");
 const cakeImage = document.querySelector("[data-cake-image]");
 
 const eventDate = new Date(2026, 5, 14, 0, 0, 0);
+
+const reserveGiftApiUrl = "https://script.google.com/macros/s/AKfycbyTECRMZDarBKfQOQU4yoBBEklGoI6z_aIS2UiUFtyUfpZMVAmTg-1FjvYS9VybPbS2/exec";
 
 function refreshIframesOnLoad() {
   const refreshableIframes = document.querySelectorAll('[data-refresh-on-load="true"]');
@@ -478,6 +488,297 @@ function updateCountdown() {
   if (countdownStatus) countdownStatus.textContent = "Counting down";
 }
 
+function setReserveGiftMessage(message, tone = "muted") {
+  if (!reserveGiftFormMessage) return;
+
+  reserveGiftFormMessage.textContent = message;
+  reserveGiftFormMessage.classList.remove("text-zinc-400", "text-green-400", "text-red-400", "text-primary");
+
+  if (tone === "success") {
+    reserveGiftFormMessage.classList.add("text-green-400");
+    return;
+  }
+
+  if (tone === "error") {
+    reserveGiftFormMessage.classList.add("text-red-400");
+    return;
+  }
+
+  if (tone === "info") {
+    reserveGiftFormMessage.classList.add("text-primary");
+    return;
+  }
+
+  reserveGiftFormMessage.classList.add("text-zinc-400");
+}
+
+function setReserveGiftFormPending(isPending) {
+  if (reserveGiftSubmit) reserveGiftSubmit.disabled = isPending;
+  if (reserveGiftNoSelect) reserveGiftNoSelect.disabled = isPending;
+  if (reserveGiftRefreshBtn) reserveGiftRefreshBtn.disabled = isPending;
+}
+
+function normalizeGiftStatus(status) {
+  const raw = String(status || "").trim();
+  const lower = raw.toLowerCase();
+  if (lower.startsWith("available")) return "Available";
+  if (lower.startsWith("reserved")) return "Reserved";
+  if (!raw) return "Available";
+  return raw;
+}
+
+function isAvailableGift(item) {
+  return normalizeGiftStatus(item?.status).toLowerCase() === "available";
+}
+
+function maskName(name) {
+  const cleaned = String(name || "").trim();
+  if (!cleaned) return "-";
+  if (cleaned.length === 1) return `${cleaned.charAt(0)}*`;
+  if (cleaned.length === 2) return `${cleaned.charAt(0)}${cleaned.charAt(1)}`;
+  return `${cleaned.charAt(0)}${"*".repeat(cleaned.length - 2)}${cleaned.charAt(cleaned.length - 1)}`;
+}
+
+function renderGiftTable(items) {
+  if (!reserveGiftTableBody) return;
+
+  reserveGiftTableBody.innerHTML = "";
+
+  if (!items.length) {
+    const emptyRow = document.createElement("tr");
+    emptyRow.innerHTML =
+      '<td colspan="4" class="px-4 py-6 text-center text-zinc-500">No gifts found right now.</td>';
+    reserveGiftTableBody.appendChild(emptyRow);
+    return;
+  }
+
+  items.forEach((item) => {
+    const row = document.createElement("tr");
+    row.className = "hover:bg-zinc-900/50 transition-colors";
+
+    const no = String(item.no ?? "-");
+    const status = normalizeGiftStatus(item.status);
+    const giftName = String(item.giftName ?? "-");
+    const maskedReservedBy = maskName(item.reservedBy || "");
+    const isReserved = status.toLowerCase() === "reserved";
+    const statusClasses = isReserved
+      ? "border-red-400/40 bg-red-500/15 text-red-300"
+      : "border-primary/30 bg-primary/10 text-primary";
+    const statusLabel = isReserved ? "N/A" : "A";
+
+    row.innerHTML = `
+      <td class="px-4 py-3 font-black text-primary">${no}</td>
+      <td class="px-4 py-3">
+        <span class="inline-flex items-center rounded-full border px-3 py-1 text-xs uppercase tracking-widest font-black ${statusClasses}">${statusLabel}</span>
+      </td>
+      <td class="px-4 py-3 text-zinc-200">${giftName}</td>
+      <td class="px-4 py-3 text-zinc-300 font-medium">${maskedReservedBy}</td>
+    `;
+
+    reserveGiftTableBody.appendChild(row);
+  });
+}
+
+function renderGiftOptions(items) {
+  if (!reserveGiftNoSelect) return;
+
+  const previousValue = reserveGiftNoSelect.value;
+  reserveGiftNoSelect.innerHTML = "";
+
+  const placeholderOption = document.createElement("option");
+  placeholderOption.value = "";
+  placeholderOption.textContent = items.length ? "Select an available gift" : "No gifts available right now";
+  reserveGiftNoSelect.appendChild(placeholderOption);
+
+  items.forEach((item) => {
+    const option = document.createElement("option");
+    option.value = String(item.no ?? "");
+      option.dataset.giftName = String(item.giftName ?? "");
+    option.textContent = `${item.no}. ${item.giftName}`;
+    reserveGiftNoSelect.appendChild(option);
+  });
+
+  if (previousValue && items.some((item) => String(item.no) === previousValue)) {
+    reserveGiftNoSelect.value = previousValue;
+  } else {
+    reserveGiftNoSelect.value = "";
+  }
+
+  reserveGiftNoSelect.disabled = !items.length;
+}
+
+async function fetchGiftItems() {
+  const actions = ["listAll", "list"];
+
+  for (const action of actions) {
+    const url = new URL(reserveGiftApiUrl);
+    url.searchParams.set("action", action);
+    url.searchParams.set("t", Date.now().toString());
+
+    const response = await fetch(url.toString(), {
+      method: "GET",
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      throw new Error(`Gift list request failed (${response.status})`);
+    }
+
+    const data = await response.json();
+    if (data.ok && Array.isArray(data.items)) {
+      return data.items;
+    }
+  }
+
+  throw new Error("Could not read gift list");
+}
+
+async function loadAvailableGifts() {
+  if (!reserveGiftNoSelect && !reserveGiftTableBody) return;
+
+  setReserveGiftMessage("Loading available gifts...", "muted");
+  if (reserveGiftLastUpdated) reserveGiftLastUpdated.textContent = "Updating...";
+
+  try {
+    const items = await fetchGiftItems();
+    const availableItems = items.filter(isAvailableGift);
+
+    renderGiftOptions(availableItems);
+    renderGiftTable(items);
+    if (availableItems.length) {
+      setReserveGiftMessage("Choose a gift and submit to reserve it.", "info");
+    } else {
+      setReserveGiftMessage("All listed gifts are currently reserved.", "muted");
+    }
+
+    if (reserveGiftLastUpdated) {
+      reserveGiftLastUpdated.textContent = `Updated ${new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`;
+    }
+  } catch (error) {
+    renderGiftOptions([]);
+    renderGiftTable([]);
+    setReserveGiftMessage(error.message || "Unable to load gifts right now.", "error");
+    if (reserveGiftLastUpdated) reserveGiftLastUpdated.textContent = "Update failed";
+  }
+}
+
+async function submitReserveGift(reservedBy, no, giftName) {
+  setReserveGiftFormPending(true);
+  setReserveGiftMessage("Submitting reservation...", "muted");
+
+  try {
+    const payload = new URLSearchParams();
+    payload.set("action", "reserve");
+    payload.set("no", no);
+    if (giftName) payload.set("giftName", giftName);
+    payload.set("reservedBy", reservedBy);
+
+    const response = await fetch(reserveGiftApiUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+      },
+      body: payload.toString(),
+    });
+
+    if (!response.ok) {
+      throw new Error(`Reservation request failed (${response.status})`);
+    }
+
+    const data = await response.json();
+    if (data.ok) {
+      setReserveGiftMessage("Gift reserved successfully. Thank you!", "success");
+      reserveGiftNameInput.value = "";
+    } else {
+      setReserveGiftMessage(data.message || "This gift is no longer available.", "error");
+    }
+  } catch (error) {
+    setReserveGiftMessage(error.message || "Could not submit reservation.", "error");
+  } finally {
+    setReserveGiftFormPending(false);
+    await loadAvailableGifts();
+  }
+}
+
+function showReserveGiftConfirm(reservedBy, giftLabel) {
+  const dialog = document.getElementById("reserveGiftConfirmDialog");
+  const nameEl = document.getElementById("reserveGiftConfirmName");
+  const giftEl = document.getElementById("reserveGiftConfirmGiftName");
+  const okBtn = document.getElementById("reserveGiftConfirmOk");
+  const cancelBtn = document.getElementById("reserveGiftConfirmCancel");
+  const backdrop = document.getElementById("reserveGiftConfirmBackdrop");
+  if (!dialog || !okBtn || !cancelBtn) return Promise.resolve(true);
+
+  if (nameEl) nameEl.textContent = reservedBy;
+  if (giftEl) giftEl.textContent = giftLabel;
+
+  dialog.classList.remove("hidden");
+  dialog.classList.add("flex");
+  dialog.setAttribute("aria-hidden", "false");
+
+  return new Promise((resolve) => {
+    function cleanup() {
+      okBtn.removeEventListener("click", onConfirm);
+      cancelBtn.removeEventListener("click", onCancel);
+      document.removeEventListener("keydown", onKeydown);
+      if (backdrop) backdrop.removeEventListener("click", onCancel);
+    }
+
+    function closeDialog(confirmed) {
+      cleanup();
+      dialog.classList.remove("flex");
+      dialog.classList.add("hidden");
+      dialog.setAttribute("aria-hidden", "true");
+      resolve(confirmed);
+    }
+
+    function onConfirm() {
+      closeDialog(true);
+    }
+
+    function onCancel() {
+      closeDialog(false);
+    }
+
+    function onKeydown(event) {
+      if (event.key === "Escape") {
+        onCancel();
+      }
+    }
+
+    okBtn.addEventListener("click", onConfirm);
+    cancelBtn.addEventListener("click", onCancel);
+    document.addEventListener("keydown", onKeydown);
+    if (backdrop) backdrop.addEventListener("click", onCancel);
+  });
+}
+
+async function handleReserveGiftSubmit(event) {
+  event.preventDefault();
+  if (!reserveGiftNameInput || !reserveGiftNoSelect) return;
+
+  const reservedBy = reserveGiftNameInput.value.trim();
+  const no = reserveGiftNoSelect.value;
+
+  if (!reservedBy || !no) {
+    setReserveGiftMessage("Enter your name and select a gift.", "error");
+    return;
+  }
+
+  const selectedOption = reserveGiftNoSelect.options[reserveGiftNoSelect.selectedIndex];
+  const giftLabel = selectedOption ? selectedOption.textContent : `Gift #${no}`;
+  const giftName = selectedOption?.dataset.giftName?.trim()
+    || (selectedOption ? selectedOption.textContent.replace(/^\s*\d+\.\s*/, "").trim() : "");
+  const confirmed = await showReserveGiftConfirm(reservedBy, giftLabel);
+
+  if (!confirmed) {
+    setReserveGiftMessage("Reservation cancelled.", "muted");
+    return;
+  }
+
+  await submitReserveGift(reservedBy, no, giftName);
+}
+
 function setPlayingState(playing) {
   document.body.classList.toggle("music-playing", playing);
 
@@ -637,6 +938,16 @@ if (reserveGiftCard && reserveGiftModal) {
   });
 }
 
+if (reserveGiftForm) {
+  reserveGiftForm.addEventListener("submit", handleReserveGiftSubmit);
+}
+
+if (reserveGiftRefreshBtn) {
+  reserveGiftRefreshBtn.addEventListener("click", () => {
+    loadAvailableGifts();
+  });
+}
+
 if (goodVibesButton) {
   goodVibesButton.addEventListener("click", () => {
     spawnGoodVibesConfetti();
@@ -718,6 +1029,7 @@ initScrollEffects();
 initBackgroundEffects();
 updateCountdown();
 setInterval(updateCountdown, 1000);
+loadAvailableGifts();
 
 function showDelayWarningEmoji() {
   const emoji = document.createElement("div");
