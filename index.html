@@ -235,16 +235,29 @@
               <div
                 class="absolute -top-12 -right-8 w-48 h-48 bg-primary rounded-full blur-3xl opacity-30"
               ></div>
-              <img
-                alt="Birthday Cake"
-                class="w-full h-full object-cover rounded-lg -rotate-6 shadow-2xl grayscale hover:grayscale-0 transition-all duration-700 cake-click-target"
-                data-cake-image
-                role="button"
-                tabindex="0"
-                aria-label="Tap the cake for a fun animation"
-                data-alt="A luxurious multi-tiered colorful birthday cake"
-                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJuXrzZgGzg3PwbQp5TW4kJBvVWbXteYnj3u5x3gaCWDYYU4AtgqvfzX1FrrgsysLYBa7FGvp7bL87I5P3W4prZgsR4tmHeyjb3Vyqa6YFOeq1_8kh1QNr8AClNMjMmrAo9M4UT7JAyq8qma0JZiMGe_I5wpTPEiaMogot2stl7x4VQEnf-ZxuZeisoC8bJUR3FIhEu-DajxxWYOoDR32-XsRgGjFRr210yUOWnH-W5QUxNpuI4DXhQ61CjFCn1Eh6OGintkbPt0xe"
-              />
+                <div class="hero-slider-shell -rotate-6" data-hero-slider>
+                  <img
+                    alt="Night club party scene"
+                    class="hero-slider-image is-active"
+                    data-hero-slider-image-primary
+                    src="images/slides/nightclub.avif"
+                  />
+                  <img
+                    alt=""
+                    aria-hidden="true"
+                    class="hero-slider-image"
+                    data-hero-slider-image-secondary
+                    src="images/slides/nightclub.avif"
+                  />
+                  <div class="hero-slider-overlay" aria-hidden="true"></div>
+                  <div
+                    class="hero-slider-status"
+                    data-hero-slider-status
+                    aria-live="polite"
+                  >
+                    1 / 8
+                  </div>
+                </div>
             </div>
             <div
               class="absolute -bottom-6 -left-6 bg-black p-6 rounded-lg shadow-xl -rotate-2 max-w-[200px] border border-white/10 js-parallax good-vibes-trigger"

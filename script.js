@@ -47,7 +47,14 @@ const countdownSeconds = document.getElementById("countdownSeconds");
 const countdownStatus = document.getElementById("countdownStatus");
 const scrollProgressFill = document.getElementById("scrollProgressFill");
 const goodVibesButton = document.querySelector("[data-good-vibes-btn]");
-const cakeImage = document.querySelector("[data-cake-image]");
+const heroSlider = document.querySelector("[data-hero-slider]");
+const heroSliderPrimaryImage = document.querySelector(
+  "[data-hero-slider-image-primary]"
+);
+const heroSliderSecondaryImage = document.querySelector(
+  "[data-hero-slider-image-secondary]"
+);
+const heroSliderStatus = document.querySelector("[data-hero-slider-status]");
 
 const eventDate = new Date(2026, 5, 14, 0, 0, 0);
 
@@ -277,72 +284,124 @@ function spawnGoodVibesConfetti() {
   }
 }
 
-function spawnCakeSnackBurst() {
-  if (!cakeImage) return;
-
-  const burstRoot = document.getElementById("bgEffects") || document.body;
-  const rect = cakeImage.getBoundingClientRect();
-  const originX = rect.left + rect.width * 0.7;
-  const originY = rect.top + rect.height * 0.28;
-
-  // Retrigger chomp animation on repeated clicks.
-  cakeImage.classList.remove("is-cake-chomp");
-  // eslint-disable-next-line no-unused-expressions
-  cakeImage.offsetWidth;
-  cakeImage.classList.add("is-cake-chomp");
-
-  if (prefersReducedMotion) return;
-
-  const crumbCount = 16;
-  for (let i = 0; i < crumbCount; i += 1) {
-    const crumb = document.createElement("span");
-    crumb.className = "cake-crumb";
-
-    const angle = (Math.PI * 1.22 * i) / crumbCount + (Math.random() * 0.5 - 0.25);
-    const distance = 24 + Math.random() * 76;
-    const x = Math.cos(angle) * distance;
-    const y = Math.sin(angle) * distance - (12 + Math.random() * 44);
-    const size = 5 + Math.random() * 7;
-    const duration = 520 + Math.random() * 520;
-
-    crumb.style.left = `${originX.toFixed(1)}px`;
-    crumb.style.top = `${originY.toFixed(1)}px`;
-    crumb.style.setProperty("--crumb-x", `${x.toFixed(1)}px`);
-    crumb.style.setProperty("--crumb-y", `${y.toFixed(1)}px`);
-    crumb.style.setProperty("--crumb-size", `${size.toFixed(1)}px`);
-    crumb.style.setProperty("--crumb-duration", `${Math.round(duration)}ms`);
-
-    crumb.addEventListener("animationend", () => {
-      crumb.remove();
-    });
-
-    burstRoot.appendChild(crumb);
+function initHeroSlider() {
+  if (!heroSlider || !heroSliderPrimaryImage || !heroSliderSecondaryImage) {
+    return;
   }
 
-  const nomCount = 4;
-  for (let i = 0; i < nomCount; i += 1) {
-    const nom = document.createElement("span");
-    nom.className = "cake-nom";
-    nom.textContent = "NOM";
+  const slides = [
+    {
+      src: "images/slides/nightclub.avif",
+      alt: "Night club party scene",
+    },
+    {
+      src: "images/slides/baa1ab0b3ef9720fde237b47ad2b770b.jpg",
+      alt: "Friends celebrating on a dance floor",
+    },
+    {
+      src: "images/slides/depositphotos_76974235-stock-photo-friends-dancing-at-disco.jpg",
+      alt: "Friends dancing at a disco",
+    },
+    {
+      src: "images/slides/depositphotos_88897404-stock-photo-young-people-dancing-in-the.jpg",
+      alt: "Young people dancing in a club",
+    },
+    {
+      src: "images/slides/images (1).jpeg",
+      alt: "Birthday celebration photo",
+    },
+    {
+      src: "images/slides/istockphoto-501387734-612x612.jpg",
+      alt: "Crowd dancing under club lights",
+    },
+    {
+      src: "images/slides/stock-photo-young-people-dancing-in-the-night-club.jpeg",
+      alt: "Partygoers dancing in the night club",
+    },
+    {
+      src: "images/slides/vibrant-dance-party-stockcake.webp",
+      alt: "Vibrant dance party atmosphere",
+    },
+  ];
 
-    const x = -34 + Math.random() * 78;
-    const y = -44 - Math.random() * 66;
-    const rot = -20 + Math.random() * 40;
-    const duration = 620 + Math.random() * 520;
+  slides.forEach((slide) => {
+    const preloadImage = new Image();
+    preloadImage.src = slide.src;
+  });
 
-    nom.style.left = `${(originX - 10 + Math.random() * 20).toFixed(1)}px`;
-    nom.style.top = `${(originY - 8 + Math.random() * 18).toFixed(1)}px`;
-    nom.style.setProperty("--nom-x", `${x.toFixed(1)}px`);
-    nom.style.setProperty("--nom-y", `${y.toFixed(1)}px`);
-    nom.style.setProperty("--nom-rot", `${rot.toFixed(1)}deg`);
-    nom.style.setProperty("--nom-duration", `${Math.round(duration)}ms`);
+  let currentIndex = 0;
+  let intervalId = null;
+  let activeLayerIndex = 0;
+  const imageLayers = [heroSliderPrimaryImage, heroSliderSecondaryImage];
 
-    nom.addEventListener("animationend", () => {
-      nom.remove();
-    });
+  const updateStatus = (index) => {
+    if (!heroSliderStatus) return;
+    heroSliderStatus.textContent = `${index + 1} / ${slides.length}`;
+  };
 
-    burstRoot.appendChild(nom);
-  }
+  const assignSlide = (imageElement, slide) => {
+    imageElement.src = slide.src;
+    imageElement.alt = slide.alt;
+  };
+
+  assignSlide(imageLayers[0], slides[0]);
+  assignSlide(imageLayers[1], slides[0]);
+  imageLayers[0].classList.add("is-active");
+  imageLayers[1].classList.remove("is-active");
+  updateStatus(0);
+
+  const renderSlide = (index) => {
+    const slide = slides[index];
+    if (!slide) return;
+
+    const currentLayer = imageLayers[activeLayerIndex];
+    const nextLayer = imageLayers[1 - activeLayerIndex];
+    const activateNextLayer = () => {
+      nextLayer.classList.add("is-active");
+      currentLayer.classList.remove("is-active");
+      activeLayerIndex = 1 - activeLayerIndex;
+      updateStatus(index);
+    };
+
+    assignSlide(nextLayer, slide);
+
+    if (nextLayer.complete) {
+      window.requestAnimationFrame(activateNextLayer);
+      return;
+    }
+
+    nextLayer.addEventListener("load", activateNextLayer, { once: true });
+  };
+
+  const advanceSlide = () => {
+    currentIndex = (currentIndex + 1) % slides.length;
+    renderSlide(currentIndex);
+  };
+
+  const startSlider = () => {
+    if (intervalId !== null || slides.length < 2) return;
+    intervalId = window.setInterval(advanceSlide, 5000);
+  };
+
+  const stopSlider = () => {
+    if (intervalId === null) return;
+    window.clearInterval(intervalId);
+    intervalId = null;
+  };
+
+  renderSlide(currentIndex);
+  startSlider();
+
+  heroSlider.addEventListener("mouseenter", stopSlider);
+  heroSlider.addEventListener("mouseleave", startSlider);
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      stopSlider();
+    } else {
+      startSlider();
+    }
+  });
 }
 
 function syncBodyScrollLock() {
@@ -1000,17 +1059,7 @@ if (goodVibesButton) {
   });
 }
 
-if (cakeImage) {
-  cakeImage.addEventListener("click", () => {
-    spawnCakeSnackBurst();
-  });
-
-  cakeImage.addEventListener("keydown", (event) => {
-    if (event.key !== "Enter" && event.key !== " ") return;
-    event.preventDefault();
-    spawnCakeSnackBurst();
-  });
-}
+initHeroSlider();
 
 if (firstVenueModalClose) {
   firstVenueModalClose.addEventListener("click", closeFirstVenueModal);

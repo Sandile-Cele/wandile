@@ -510,21 +510,69 @@ footer {
   }
 }
 
-.cake-click-target {
-  cursor: pointer;
-  outline: none;
-  transition: box-shadow 250ms var(--motion-ease);
-}
-
-.cake-click-target:hover,
-.cake-click-target:focus-visible {
+.hero-slider-shell {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 2rem;
+  isolation: isolate;
+  background: #080808;
   box-shadow:
-    0 20px 44px rgba(0, 0, 0, 0.5),
-    0 0 22px rgba(254, 203, 0, 0.22);
+    0 25px 50px -12px rgb(0 0 0 / 0.25),
+    0 0 26px rgba(254, 203, 0, 0.12);
 }
 
-.cake-click-target.is-cake-chomp {
-  animation: cakeChomp 560ms var(--motion-ease);
+.hero-slider-image {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  opacity: 0;
+  transform: scale(1.04);
+  transition:
+    opacity 2400ms var(--motion-ease),
+    transform 2400ms var(--motion-ease),
+    filter 2400ms var(--motion-ease);
+  filter: saturate(1.04) contrast(1.02);
+}
+
+.hero-slider-image.is-active {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 1;
+}
+
+.hero-slider-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.26)),
+    linear-gradient(135deg, rgba(254, 203, 0, 0.16), rgba(254, 203, 0, 0) 48%);
+  pointer-events: none;
+}
+
+.hero-slider-status {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 3;
+  padding: 0.45rem 0.8rem;
+  border: 1px solid rgba(254, 203, 0, 0.26);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.62);
+  color: #fff4c1;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  backdrop-filter: blur(10px);
 }
 
 .cake-crumb,
@@ -727,7 +775,7 @@ body.music-playing #audioBtnCard {
   .hero-21,
   .hero-subcopy,
   .mini-confetti,
-  .cake-click-target.is-cake-chomp,
+  .hero-slider-image,
   .cake-crumb,
   .cake-nom {
     animation: none !important;
@@ -736,11 +784,15 @@ body.music-playing #audioBtnCard {
   .hero-line,
   .hero-subcopy {
     opacity: 1;
-    transform: none;
     filter: none;
   }
 
   [data-reveal] {
+
+  .hero-slider-image {
+    transition: none;
+    transform: none;
+  }
     opacity: 1;
     transform: none;
     transition: none;
