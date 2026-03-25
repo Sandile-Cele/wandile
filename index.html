@@ -351,6 +351,17 @@
                       aria-live="polite"
                     ></p>
                   </form>
+
+                  <div class="mt-6 pt-5 border-t border-zinc-800">
+                    <p class="text-xs text-zinc-500 leading-relaxed">
+                      Changed your mind or something's not right?
+                      <button
+                        type="button"
+                        onclick="openReportModal()"
+                        class="text-white underline underline-offset-2 hover:text-zinc-300 transition-colors font-black"
+                      >Report it as an issue here.</button>
+                    </p>
+                  </div>
                 </div>
               </div>
 
@@ -875,24 +886,72 @@
         </p>
       </div>
     </footer>
-    <!-- Floating Action Button -->
+    <!-- Floating Report Button -->
     <button
-      id="floatingRsvpBtn"
-      class="fixed bottom-8 right-8 w-16 h-16 bg-black text-primary rounded-full shadow-2xl flex items-center justify-center z-40 hover:scale-110 active:scale-90 transition-transform group border border-primary/20 fab-float"
-      title="Open RSVP form"
-      aria-label="Open RSVP form"
+      id="floatingReportBtn"
+      class="fixed bottom-8 right-8 bg-black text-white rounded-full shadow-2xl flex items-center justify-center gap-2 z-40 hover:scale-105 active:scale-95 transition-transform border border-white/30 fab-float px-5 py-3"
+      title="Report an issue"
+      aria-label="Report an issue"
     >
       <span
-        class="material-symbols-outlined text-3xl"
-        data-icon="add_reaction"
+        class="material-symbols-outlined text-lg leading-none"
+        data-icon="report_problem"
         style="font-variation-settings: &quot;FILL&quot; 1"
-        >add_reaction</span
+        >report_problem</span
       >
-      <span
-        class="absolute right-20 bg-black text-primary text-xs font-black px-3 py-1 rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none uppercase tracking-widest border border-primary/20"
-        >RSVP!</span
-      >
+      <span class="text-xs font-black uppercase tracking-widest whitespace-nowrap">Report Issue</span>
     </button>
+
+    <!-- Report Modal -->
+    <div
+      id="reportModal"
+      class="fixed inset-0 z-[80] hidden items-center justify-center"
+      aria-hidden="true"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="reportModalTitle"
+    >
+      <button
+        id="reportModalBackdrop"
+        type="button"
+        aria-label="Close report form"
+        class="absolute inset-0 bg-black/85 backdrop-blur-sm"
+      ></button>
+      <div
+        class="relative w-full h-full max-w-3xl max-h-[90vh] m-auto rounded-xl border border-white/30 bg-black shadow-[0_30px_80px_rgba(0,0,0,0.7)] overflow-hidden flex flex-col"
+      >
+        <div
+          class="flex items-center justify-between px-5 py-4 border-b border-white/20 flex-shrink-0"
+        >
+          <div class="flex items-center gap-3">
+            <span class="material-symbols-outlined text-white text-2xl" style="font-variation-settings: 'FILL' 1">report_problem</span>
+            <div>
+              <p class="text-xs uppercase tracking-[0.2em] text-white/70 font-black">Something went wrong?</p>
+              <h3 id="reportModalTitle" class="font-headline text-xl font-black text-white">Report an Issue</h3>
+            </div>
+          </div>
+          <button
+            id="reportModalClose"
+            type="button"
+            class="w-11 h-11 rounded-full border border-white/40 text-white hover:bg-white hover:text-black transition-colors flex items-center justify-center"
+            aria-label="Close report form"
+          >
+            <span class="material-symbols-outlined" data-icon="close">close</span>
+          </button>
+        </div>
+        <div class="flex-1 bg-white overflow-hidden">
+          <iframe
+            src="https://docs.google.com/forms/d/e/1FAIpQLSeGYly2RPadKOocNror1xfi2TkuSDmEKRIHulCo7LQtwF6T6A/viewform?embedded=true"
+            class="w-full h-full border-0"
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            title="Report an Issue"
+            >Loading…</iframe
+          >
+        </div>
+      </div>
+    </div>
 
     <div
       id="firstVenueModal"

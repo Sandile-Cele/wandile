@@ -25,6 +25,10 @@ const rsvpCard = document.querySelector("[data-rsvp-card]");
 const rsvpModal = document.getElementById("rsvpModal");
 const rsvpModalClose = document.getElementById("rsvpModalClose");
 const floatingRsvpBtn = document.getElementById("floatingRsvpBtn");
+const floatingReportBtn = document.getElementById("floatingReportBtn");
+const reportModal = document.getElementById("reportModal");
+const reportModalClose = document.getElementById("reportModalClose");
+const reportModalBackdrop = document.getElementById("reportModalBackdrop");
 const reserveGiftCard = document.querySelector("[data-reserve-gift-card]");
 const reserveGiftModal = document.getElementById("reserveGiftModal");
 const reserveGiftModalClose = document.getElementById("reserveGiftModalClose");
@@ -926,6 +930,39 @@ if (rsvpCard && rsvpModal) {
 if (floatingRsvpBtn && rsvpModal) {
   floatingRsvpBtn.addEventListener("click", () => {
     openRsvpModal();
+  });
+}
+
+function openReportModal() {
+  reportModal.classList.remove("hidden");
+  reportModal.classList.add("flex");
+  reportModal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+window.openReportModal = openReportModal;
+
+function closeReportModal() {
+  reportModal.classList.add("hidden");
+  reportModal.classList.remove("flex");
+  reportModal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+if (floatingReportBtn && reportModal) {
+  floatingReportBtn.addEventListener("click", () => {
+    openReportModal();
+  });
+
+  reportModalClose.addEventListener("click", () => {
+    closeReportModal();
+  });
+
+  reportModalBackdrop.addEventListener("click", () => {
+    closeReportModal();
+  });
+
+  reportModal.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") closeReportModal();
   });
 }
 
