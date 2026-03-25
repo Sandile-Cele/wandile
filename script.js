@@ -565,13 +565,16 @@ function renderGiftTable(items) {
       ? "border-red-400/40 bg-red-500/15 text-red-300"
       : "border-primary/30 bg-primary/10 text-primary";
     const statusLabel = isReserved ? "N/A" : "A";
+    const giftNameClasses = isReserved
+      ? "text-zinc-400 line-through decoration-red-400/70 decoration-2"
+      : "text-zinc-200";
 
     row.innerHTML = `
-      <td class="px-4 py-3 font-black text-primary">${no}</td>
+      <td class="px-2 py-3 w-0 whitespace-nowrap font-black text-primary">${no}</td>
+      <td class="px-4 py-3 w-[52%] min-w-[18rem] ${giftNameClasses}">${giftName}</td>
       <td class="px-4 py-3">
         <span class="inline-flex items-center rounded-full border px-3 py-1 text-xs uppercase tracking-widest font-black ${statusClasses}">${statusLabel}</span>
       </td>
-      <td class="px-4 py-3 text-zinc-200">${giftName}</td>
       <td class="px-4 py-3 text-zinc-300 font-medium">${maskedReservedBy}</td>
     `;
 
